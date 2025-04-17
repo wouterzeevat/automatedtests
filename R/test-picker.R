@@ -61,7 +61,7 @@ pick_two_variable_test <- function(test_object) {
     #  return("Chi-square test of independence")
     #}
 
-    if (test_object$isPaired()) {
+    if (test_object$hasIdentifiers()) {
       if (length(unique(data[1])) > 2 || length(unique(data[2])) > 2) {
         return("Cochran's Q test")
       }
@@ -82,17 +82,17 @@ pick_two_variable_test <- function(test_object) {
   quan_index <- which(types == "Quantitative")
 
   # Qualitative & Quantitative
-  if (length(unique(data[qual_index])) > 2) {
-    if (test_object$isPaired()) {
+  if (length(unique(data[[qual_index]])) > 2) {
+    if (test_object$hasIdentifiers()) {
       if (test_object$isParametric()) {
         return("Repeated messures ANOVA")
       }
       return("Friedman test")
     }
-    if (test_object$isPaired()) {
+    if (test_object$isParametric()) {
 
       # Equal variance test
-      if (bartlett.test(data[[1]], data[[2]])$p.value > 0.05) {
+      if (bartlett.test(data[[quan_index]], data[[qual_index]])$p.value > 0.05) {
         return("One-way ANOVA")
       }
       return("Welch's ANOVA")

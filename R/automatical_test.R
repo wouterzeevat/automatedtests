@@ -2,7 +2,14 @@
 #'
 #' @description The
 #' @export
-automatical_test <- function(data=NULL, subsets=NULL, paired=FALSE, compare_to=0.5) {
+automatical_test <- function(data=NULL, subsets=NULL, compare_to=0.5, identifiers=FALSE) {
+
+  # Split identifiers from data if enabled
+  ids <- list()
+  if (identifiers) {
+    ids <- data[[1]]
+    data <- data[, -1]
+  }
 
   if (is.null(data)) {
     stop("Data argument is not a valid dataframe!")
@@ -12,7 +19,7 @@ automatical_test <- function(data=NULL, subsets=NULL, paired=FALSE, compare_to=0
     stop("Subsets are defined but do not match the size of the data!")
   }
 
-  test <- AutomatedTest$new(data, subsets, paired, compare_to)
+  test <- AutomatedTest$new(data, subsets, ids, compare_to)
   return(test)
 
 }

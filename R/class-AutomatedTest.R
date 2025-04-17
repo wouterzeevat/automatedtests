@@ -11,9 +11,8 @@ AutomatedTest <- R6::R6Class(
     # Private variables
     .data = data.frame(),
     .subsets = c(),
-    .paired = logical(0),
+    .identifiers = list(),
     .compare_to = numeric(0),
-    .parametric_list = list(),
     .test = character(0),
     .result = NULL,
 
@@ -37,26 +36,12 @@ AutomatedTest <- R6::R6Class(
     #' @param data A dataframe containing the data for the test.
     #' @param subsets A vector with subsets in the data.
     #' @param compare_to A numeric value for comparison in one-sample tests.
-    initialize = function(data, subsets, paired, compare_to) {
+    initialize = function(data, subsets, identifiers, compare_to) {
       private$.data <- data
       private$.subsets <- subsets
-      private$.paired <- paired
+      private$.identifiers <- identifiers
       private$.compare_to <- compare_to
 
-      # Apply parametric tests
-      parametric_results <- list()
-      if (is.null(subsets)) {
-        for (feature in colnames(data)) {
-          parametric_results[[feature]] <- check_parametric(data[[feature]])
-        }
-      } else {
-        for (subset in unique(subsets)) {
-          for (feature in colnames(data)) {
-            parametric_results[[paste0(feature, "-", subset)]] <- check_parametric(data[subsets == subset, feature])
-          }
-        }
-      }
-      private$.setParametricList(parametric_results)
       private$.setTest(pick_test(test_object = self))
       #cat(self$getTest())
       private$.setResult(get_test_from_string(self))
@@ -74,10 +59,18 @@ AutomatedTest <- R6::R6Class(
       return(private$.subsets)
     },
 
-    #' @description Get the paired variable
-    #' @return Whether the paired variable is True or False
-    isPaired = function() {
-      return(private$.paired)
+    #' @description Get the identifier variable
+    #' @return Whether the data has an identifier, if not
+    #' The test is always UNPAIRED
+    hasIdentifiers = function() {
+      return(length(self$.identifiers) > 1)
+    },
+
+    #' @description A list of the identifiers used for the data
+    #' @return Returns the identifiers
+    #' The test is always UNPAIRED
+    getIdentifiers = function() {
+      return(private$.identifiers)
     },
 
     #' @description Get the comparison value for one-sample tests
@@ -113,16 +106,23 @@ AutomatedTest <- R6::R6Class(
     #' @description Get the parametric test results of the features and subsets
     #' @return A list of parametric test results
     getParametricList = function() {
-      return(private$.parametric_list)
+      parametric_list <- list()
+      for (name in colnames(self$getData())) {
+        feature <- self$getData()[[name]]
+        parametric_list[[length(parametric_list) + 1]] <- check_parametric(feature)
+      }
+      return(parametric_list)
     },
 
     #' @description Check if the data meets parametric assumptions
     #' @return TRUE if parametric assumptions are met, otherwise FALSE
     isParametric = function() {
-      for (test in self$getParametricList()) {
-        if (typeof(test) == "logical" && !test) return(FALSE)
-      }
-      result <- sapply(self$getParametricList(), function(x) x$result == TRUE)
+      result <- sapply(self$getParametricList(), function(x) {
+        if (is.null(x)) {
+          return(NULL)  # Skip this iteration if x is NULL
+        }
+        return(x$result == TRUE)
+      })
       return(all(result))
     },
 

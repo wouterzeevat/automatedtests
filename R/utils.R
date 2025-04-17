@@ -2,10 +2,11 @@
 #'inst
 #'
 #' @param data The data to check (vector of integers).
-#' @return TRUE if data is normalized, FALSE otherwise.
+#' @return TRUE if data is normalized, FALSE otherwise. If data is not numeric
+#' the function will return NULL
 #' @keywords internal
 check_parametric <- function(data) {
-  if (!is.numeric(data)) return(FALSE)
+  if (!is.numeric(data)) return(NULL)
 
   if (length(data) < 5000) {
     result <- shapiro.test(data)
@@ -35,7 +36,25 @@ check_parametric <- function(data) {
 get_test_from_string <- function(test_object) {
   data <- test_object$getData()
   subsets <- test_object$getSubsets()
+  identifiers <- test_object$getIdentifiers()
   compare_to <- test_object$getCompareTo()
+
+  df <- NULL
+
+  # Format data to fit in tests
+  if (length(test_object$getDatatypes()) == 2 && unique(test_object$getDatatypes()) > 1) {
+    qual_index <- which(test_object$getDatatypes() == "Qualitative")
+    quan_index <- which(test_object$getDatatypes() == "Quantitative")
+
+    # For paired test process identifiers
+    if (test_object$hasIdentifiers()) {
+      df <- data.frame(
+        id = test_object$getIdentifiers(),
+        condition = as.factor(data[[1]]),
+        value = data[[2]]
+      )
+    }
+  }
   switch(test_object$getTest(),
 
          "One-proportion test" = {
@@ -142,23 +161,23 @@ get_test_from_string <- function(test_object) {
          },
 
          "One-way ANOVA" = {
-           return(aov(data[[1]], data[[2]]))
+           return(aov(data[[quan_index]] ~ data[[qual_index]]))
          },
 
          "Welch's ANOVA" = {
-           oneway.test(values ~ group, data = data)
+           return(oneway.test(data[[quan_index]] ~ data[[qual_index]], var.equal = FALSE))
          },
 
          "Repeated messures ANOVA" = {
-           oneway.test(values ~ group, data = data)
+           return(aov(value ~ condition + Error(id/condition), data = df))
          },
 
          "Kruskal-Wallis test" = {
-           kruskal.test(values ~ group, data = data)
+           return(kruskal.test(data[[quan_index]] ~ data[[qual_index]]))
          },
 
          "Friedman test" = {
-           return(friedman.test(data[[1]] ~ data[[2]] | factor(rep(1:nrow(data), each=2))))
+           return(friedman.test(value ~ condition | id, data = df))
          },
 
   )
