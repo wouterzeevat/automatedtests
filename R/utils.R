@@ -42,7 +42,7 @@ get_test_from_string <- function(test_object) {
   df <- NULL
 
   # Format data to fit in tests
-  if (length(test_object$getDatatypes()) == 2 && unique(test_object$getDatatypes()) > 1) {
+  if (length(test_object$getDatatypes()) == 2 && length(unique(test_object$getDatatypes())) > 1) {
     qual_index <- which(test_object$getDatatypes() == "Qualitative")
     quan_index <- which(test_object$getDatatypes() == "Quantitative")
 
@@ -50,8 +50,8 @@ get_test_from_string <- function(test_object) {
     if (test_object$hasIdentifiers()) {
       df <- data.frame(
         id = test_object$getIdentifiers(),
-        condition = as.factor(data[[1]]),
-        value = data[[2]]
+        condition = as.factor(data[[qual_index]]),
+        value = data[[quan_index]]
       )
     }
   }
@@ -141,23 +141,31 @@ get_test_from_string <- function(test_object) {
          },
 
          "Student's t-test for independent samples" = {
-           t.test(values ~ group, data = data, var.equal=TRUE)
+           return(t.test(data[[quan_index]] ~ data[[qual_index]], var.equal = TRUE))
          },
 
          "Welch's t-test for independent samples" = {
-           t.test(values ~ group, data = data, var.equal=FALSE)
+           return(t.test(data[[quan_index]] ~ data[[qual_index]], var.equal = FALSE))
          },
 
          "Mann-Whitney U test" = {
-           wilcox.test(values ~ group, data = data)
+           return(wilcox.test(data[[quan_index]] ~ data[[qual_index]], exact = FALSE))
          },
 
          "Student's t-test for paired samples" = {
-           t.test(data$values[1:10], data$values[11:20], paired=TRUE)
+           return(t.test(
+             data[data[[qual_index]] == unique(data[[qual_index]])[1], quan_index],
+             data[data[[qual_index]] == unique(data[[qual_index]])[2], quan_index],
+             paired = TRUE
+           ))
          },
 
          "Wilcoxon signed-rank test" = {
-           wilcox.test(data$values[1:10], data$values[11:20], paired=TRUE)
+           return(wilcox.test(
+             data[data[[qual_index]] == unique(data[[qual_index]])[1], quan_index],
+             data[data[[qual_index]] == unique(data[[qual_index]])[2], quan_index],
+             paired = TRUE
+           ))
          },
 
          "One-way ANOVA" = {

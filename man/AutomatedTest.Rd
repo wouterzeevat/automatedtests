@@ -4,26 +4,24 @@
 \alias{AutomatedTest}
 \title{AutomatedTest class}
 \description{
-The AutomatedTest class is the class that represent a result of a statistical test. It contains all the attributes of the results such as the p-value, degrees of
-freedom, and more.
+The AutomatedTest class represents a result of a statistical test. It contains attributes such as the p-value, degrees of freedom, and more.
 }
-\examples{
-AutomatedTest$new(
-  test = "Unpaired T-test",
-)
-
-}
-\keyword{internal}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-AutomatedTest-new}{\code{AutomatedTest$new()}}
+\item \href{#method-AutomatedTest-getData}{\code{AutomatedTest$getData()}}
+\item \href{#method-AutomatedTest-getSubsets}{\code{AutomatedTest$getSubsets()}}
+\item \href{#method-AutomatedTest-hasIdentifiers}{\code{AutomatedTest$hasIdentifiers()}}
+\item \href{#method-AutomatedTest-getIdentifiers}{\code{AutomatedTest$getIdentifiers()}}
+\item \href{#method-AutomatedTest-getCompareTo}{\code{AutomatedTest$getCompareTo()}}
+\item \href{#method-AutomatedTest-setCompareTo}{\code{AutomatedTest$setCompareTo()}}
 \item \href{#method-AutomatedTest-getDatatypes}{\code{AutomatedTest$getDatatypes()}}
-\item \href{#method-AutomatedTest-setDatatypes}{\code{AutomatedTest$setDatatypes()}}
-\item \href{#method-AutomatedTest-getParametric}{\code{AutomatedTest$getParametric()}}
-\item \href{#method-AutomatedTest-setParametric}{\code{AutomatedTest$setParametric()}}
+\item \href{#method-AutomatedTest-getParametricList}{\code{AutomatedTest$getParametricList()}}
+\item \href{#method-AutomatedTest-isParametric}{\code{AutomatedTest$isParametric()}}
 \item \href{#method-AutomatedTest-getTest}{\code{AutomatedTest$getTest()}}
-\item \href{#method-AutomatedTest-setTest}{\code{AutomatedTest$setTest()}}
+\item \href{#method-AutomatedTest-getResult}{\code{AutomatedTest$getResult()}}
+\item \href{#method-AutomatedTest-print}{\code{AutomatedTest$print()}}
 \item \href{#method-AutomatedTest-clone}{\code{AutomatedTest$clone()}}
 }
 }
@@ -33,7 +31,96 @@ AutomatedTest$new(
 \subsection{Method \code{new()}}{
 Initialize an instance of the AutomatedTest class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$new(data, subsets, identifiers, compare_to)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{data}}{A dataframe containing the data for the test.}
+
+\item{\code{subsets}}{A vector with subsets in the data.}
+
+\item{\code{compare_to}}{A numeric value for comparison in one-sample tests.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-AutomatedTest-getData"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-getData}{}}}
+\subsection{Method \code{getData()}}{
+Get the data used in the test
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getData()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A dataframe with the data except the subsets
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-AutomatedTest-getSubsets"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-getSubsets}{}}}
+\subsection{Method \code{getSubsets()}}{
+Get the subsets used in the test
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getSubsets()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A vector containing subset information
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-AutomatedTest-hasIdentifiers"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-hasIdentifiers}{}}}
+\subsection{Method \code{hasIdentifiers()}}{
+Get the identifier variable
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$hasIdentifiers()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+Whether the data has an identifier, if not
+The test is always UNPAIRED
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-AutomatedTest-getIdentifiers"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-getIdentifiers}{}}}
+\subsection{Method \code{getIdentifiers()}}{
+A list of the identifiers used for the data
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getIdentifiers()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+Returns the identifiers
+The test is always UNPAIRED
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-AutomatedTest-getCompareTo"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-getCompareTo}{}}}
+\subsection{Method \code{getCompareTo()}}{
+Get the comparison value for one-sample tests
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getCompareTo()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A numeric value for comparison
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-AutomatedTest-setCompareTo"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-setCompareTo}{}}}
+\subsection{Method \code{setCompareTo()}}{
+updates the compare_to variable. Is public because the
+compare value, can get changed depending on the type of test.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$setCompareTo(compare_to)}\if{html}{\out{</div>}}
 }
 
 }
@@ -41,91 +128,76 @@ Initialize an instance of the AutomatedTest class
 \if{html}{\out{<a id="method-AutomatedTest-getDatatypes"></a>}}
 \if{latex}{\out{\hypertarget{method-AutomatedTest-getDatatypes}{}}}
 \subsection{Method \code{getDatatypes()}}{
-Get the datatypes of the features in the object
+Get the data types of the features in the object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getDatatypes()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
-A list of datatypes (e.g., Quantitative or Qualitative).
+A list of datatypes (e.g., Quantitative or Qualitative)
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-setDatatypes"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-setDatatypes}{}}}
-\subsection{Method \code{setDatatypes()}}{
-Set the datatypes for the features in the object
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$setDatatypes(dataTypes)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{dataTypes}}{A list of datatypes (e.g., Quantitative or Qualitative).}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-getParametric"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-getParametric}{}}}
-\subsection{Method \code{getParametric()}}{
+\if{html}{\out{<a id="method-AutomatedTest-getParametricList"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-getParametricList}{}}}
+\subsection{Method \code{getParametricList()}}{
 Get the parametric test results of the features and subsets
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getParametric()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getParametricList()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
-A list of parametric test results for all features and subsets.
+A list of parametric test results
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-setParametric"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-setParametric}{}}}
-\subsection{Method \code{setParametric()}}{
-Set the parametric test results
+\if{html}{\out{<a id="method-AutomatedTest-isParametric"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-isParametric}{}}}
+\subsection{Method \code{isParametric()}}{
+Check if the data meets parametric assumptions
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$setParametric(parametric)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$isParametric()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{parametric}}{A list that sets the parametric variable, including all parametric states of all features and subsets.}
-}
-\if{html}{\out{</div>}}
+\subsection{Returns}{
+TRUE if parametric assumptions are met, otherwise FALSE
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-AutomatedTest-getTest"></a>}}
 \if{latex}{\out{\hypertarget{method-AutomatedTest-getTest}{}}}
 \subsection{Method \code{getTest()}}{
-Get the test results stored in the object
+Get the statistical test that was chosen
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getTest()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
-A list of the test results.
+The name of the statistical test
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-setTest"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-setTest}{}}}
-\subsection{Method \code{setTest()}}{
-Set the test and its results
+\if{html}{\out{<a id="method-AutomatedTest-getResult"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-getResult}{}}}
+\subsection{Method \code{getResult()}}{
+Get the reslult of selected statistical test
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$setTest(test)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getResult()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{test}}{A list or object that sets the test and its results.}
+\subsection{Returns}{
+The result of the statistical test
 }
-\if{html}{\out{</div>}}
 }
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-AutomatedTest-print"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-print}{}}}
+\subsection{Method \code{print()}}{
+Print a summary of the test object
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$print()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-AutomatedTest-clone"></a>}}

@@ -63,7 +63,7 @@ AutomatedTest <- R6::R6Class(
     #' @return Whether the data has an identifier, if not
     #' The test is always UNPAIRED
     hasIdentifiers = function() {
-      return(length(self$.identifiers) > 1)
+      return(length(private$.identifiers) > 1)
     },
 
     #' @description A list of the identifiers used for the data
