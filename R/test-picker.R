@@ -6,9 +6,6 @@
 #' @keywords internal
 pick_test <- function(test_object) {
   size <- ncol(test_object$getData())
-  if(!is.null(test_object$getSubsets())) {
-    size <- size + 1
-  }
 
   if (size == 1) {
     return(pick_one_variable_test(test_object))
@@ -17,7 +14,7 @@ pick_test <- function(test_object) {
   if (size == 2) {
     return(pick_two_variable_test(test_object))
   }
-  return("INVALID")
+  return(pick_multiple_variable_test(test_object))
 }
 
 pick_one_variable_test <- function(test_object) {
@@ -78,11 +75,10 @@ pick_two_variable_test <- function(test_object) {
 
   }
 
-  # Qualitative & Quantitative
   qual_index <- which(types == "Qualitative")
   quan_index <- which(types == "Quantitative")
 
-  # Group size > 2
+  # Qualitative & Quantitative
   if (length(unique(data[[qual_index]])) > 2) {
     if (test_object$hasIdentifiers()) {
       if (test_object$isParametric()) {
@@ -101,22 +97,19 @@ pick_two_variable_test <- function(test_object) {
     return("Kruskal-Wallis test")
   }
 
-  # Group size == 2
-  if (test_object$hasIdentifiers()) {
-    if (test_object$isParametric()) {
-      return("Student's t-test for paired samples")
-    }
-    return("Wilcoxon signed-rank test")
+}
+
+pick_multiple_variable_test <- function(test_object) {
+  # If binary / 2 groups
+  if (length(unique(data[[1]])) == 2 && all(unique(data[[1]]) %in% c(0, 1, TRUE, FALSE)) ||
+      !is.numeric(data[[1]]) && length(unique(data[[1]])) == 2) {
+    return("Binary logistic regression")
   }
 
-  if (test_object$isParametric()) {
-
-    # Equal variance test
-    if (bartlett.test(data[[quan_index]], data[[qual_index]])$p.value > 0.05) {
-      return("Student's t-test for independent samples")
-    }
-    return("Welch's t-test for independent samples")
+  if (is.numeric(data[[1]])) {
+    return("Multiple linear regression")
   }
-  return("Mann-Whitney U test")
+
+  return("Multinomial logistic regression")
 
 }

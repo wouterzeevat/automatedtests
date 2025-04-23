@@ -10,7 +10,6 @@ AutomatedTest <- R6::R6Class(
   private = list(
     # Private variables
     .data = data.frame(),
-    .subsets = c(),
     .identifiers = list(),
     .compare_to = numeric(0),
     .test = character(0),
@@ -32,31 +31,24 @@ AutomatedTest <- R6::R6Class(
   ),
 
   public = list(
+
     #' @description Initialize an instance of the AutomatedTest class
     #' @param data A dataframe containing the data for the test.
-    #' @param subsets A vector with subsets in the data.
-    #' @param compare_to A numeric value for comparison in one-sample tests.
-    initialize = function(data, subsets, identifiers, compare_to) {
+    #' @param identifiers A vector with the identifiers.
+    #' @param compare_to value to compare to for comparison in one-sample tests.
+    initialize = function(data, identifiers, compare_to = NULL) {
       private$.data <- data
-      private$.subsets <- subsets
       private$.identifiers <- identifiers
       private$.compare_to <- compare_to
 
       private$.setTest(pick_test(test_object = self))
-      #cat(self$getTest())
       private$.setResult(get_test_from_string(self))
     },
 
     #' @description Get the data used in the test
-    #' @return A dataframe with the data except the subsets
+    #' @return A dataframe with all features
     getData = function() {
       return(private$.data)
-    },
-
-    #' @description Get the subsets used in the test
-    #' @return A vector containing subset information
-    getSubsets = function() {
-      return(private$.subsets)
     },
 
     #' @description Get the identifier variable
@@ -97,13 +89,10 @@ AutomatedTest <- R6::R6Class(
           result <- append(result, "Qualitative")
         }
       }
-      if (!is.null(self$getSubsets())) {
-        result <- append(result, "Qualitative")
-      }
       return(result)
     },
 
-    #' @description Get the parametric test results of the features and subsets
+    #' @description Get the parametric test results of the features
     #' @return A list of parametric test results
     getParametricList = function() {
       parametric_list <- list()
@@ -144,17 +133,8 @@ AutomatedTest <- R6::R6Class(
       cat("Automated Test:\n")
       cat("Data: ", colnames(self$getData()), "\n")
 
-      # If subsets exist
-      if (!is.null(self$getSubsets())) {
-        cat("Subsets: ", unique(self$getSubsets()), "\n")
-      }
-
       # If one sample test
       size <- ncol(self$getData())
-      if(!is.null(self$getSubsets())) {
-        size <- size + 1
-      }
-
       if (size == 1) {
         cat("Compared to: ", self$getCompareTo(), "\n")
       }

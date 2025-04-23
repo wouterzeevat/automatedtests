@@ -35,10 +35,8 @@ check_parametric <- function(data) {
 #' @keywords internal
 get_test_from_string <- function(test_object) {
   data <- test_object$getData()
-  subsets <- test_object$getSubsets()
   identifiers <- test_object$getIdentifiers()
   compare_to <- test_object$getCompareTo()
-
   df <- NULL
 
   # Format data to fit in tests
@@ -60,8 +58,8 @@ get_test_from_string <- function(test_object) {
          "One-proportion test" = {
 
            # Makes sure compare_to is correct value, if not use the default
-           if (length(compare_to) > 2) {
-             warning("compare_to is an invalid value: ", compare_to, ". changed to default for this case: ", "0.5 (50%)")
+           if (is.null(compare_to) | length(compare_to) > 2) {
+             warning("Using default compare_to value this case: ", "0.5 (50%)")
              compare_to <- 0.5 # Uniform distribution
              test_object$setCompareTo(compare_to)
            }
@@ -71,8 +69,8 @@ get_test_from_string <- function(test_object) {
          "Chi-square goodness-of-fit test" = {
 
            # Makes sure compare_to is correct value, if not use the default
-           if (length(compare_to) < 2) {
-             warning("compare_to is an invalid value: ", compare_to, ". changed to default for this case: ",
+           if (is.null(compare_to) | length(compare_to) < 2) {
+             warning("Using default compare_to value this case: ",
                      rep(1 / length(unique(data[[1]])), length(unique(data[[1]]))))
              compare_to <- rep(1 / length(unique(data[[1]])), length(unique(data[[1]]))) # Uniform distribution
              test_object$setCompareTo(compare_to)
@@ -85,8 +83,8 @@ get_test_from_string <- function(test_object) {
          "One-sample Student's t-test" = {
 
            # Makes sure compare_to is correct value, if not use the default
-           if (length(compare_to) > 2) {
-             warning("compare_to is an invalid value: ", compare_to, ". changed to default for this case: 0")
+           if (is.null(compare_to) | length(compare_to) > 2) {
+             warning("Using default compare_to value this case: 0")
              compare_to <- 0
              test_object$setCompareTo(compare_to)
            }
@@ -96,8 +94,8 @@ get_test_from_string <- function(test_object) {
          "One-sample Wilcoxon test" = {
 
           # Makes sure compare_to is correct value, if not use the default
-          if (length(compare_to) > 2) {
-             warning("compare_to is an invalid value: ", compare_to, ". changed to default for this case: 0")
+          if (is.null(compare_to) | length(compare_to) > 2) {
+             warning("Using default compare_to value this case: 0")
              compare_to <- 0
              test_object$setCompareTo(compare_to)
            }
@@ -105,11 +103,24 @@ get_test_from_string <- function(test_object) {
          },
 
          "Multiple linear regression" = {
-           lm(values ~ group, data = data)
+           predictors <- colnames(data[-1])
+           formula <- as.formula(paste(colnames(data)[1], " ~", paste(predictors, collapse = " + ")))
+           test <- lm(formula, data = data)
+           return(test)
          },
 
          "Binary logistic regression" = {
-           glm(group ~ values, family = binomial, data = data)
+           predictors <- colnames(data[-1])
+           formula <- as.formula(paste(colnames(data)[1], " ~", paste(predictors, collapse = " + ")))
+           test <- glm(formula, data = data, family = binomial())
+           return(test)
+         },
+
+         "Multinomial logistic regression" = {
+           predictors <- colnames(data[-1])
+           formula <- as.formula(paste(colnames(data)[1], " ~", paste(predictors, collapse = " + ")))
+           test <- nnet::multinom(formula, data = data)
+           return(test)
          },
 
          "Pearson correlation" = {
