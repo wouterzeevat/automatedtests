@@ -46,8 +46,7 @@ automatical_test <- function(..., compare_to = NULL, identifiers = FALSE) {
 
   # Create and return the AutomatedTest object
   if (is.null(compare_to)) {
-    test <- AutomatedTest$new(data, ids)
+    return(AutomatedTest$new(data, ids))
   }
-  test <- AutomatedTest$new(data, ids, compare_to)
-  return(test)
+  return(AutomatedTest$new(data, ids, compare_to))
 }

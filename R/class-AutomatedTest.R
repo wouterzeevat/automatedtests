@@ -42,7 +42,8 @@ AutomatedTest <- R6::R6Class(
       private$.compare_to <- compare_to
 
       private$.setTest(pick_test(test_object = self))
-      private$.setResult(get_test_from_string(self))
+      private$.setResult(get_test_from_string(test_object = self))
+
     },
 
     #' @description Get the data used in the test
@@ -51,11 +52,14 @@ AutomatedTest <- R6::R6Class(
       return(private$.data)
     },
 
-    #' @description Get the identifier variable
-    #' @return Whether the data has an identifier, if not
-    #' The test is always UNPAIRED
-    hasIdentifiers = function() {
-      return(length(private$.identifiers) > 1)
+    #' @description shows if the data is paired, if there are multiple rows with the same identifier, the data has more
+    #' samples (TIDY DATA). Making the data paired
+    #' @return Whether the data is paired (TRUE/FALSE)
+    isPaired = function() {
+      if (length(private$.identifiers) > 1) {
+        return(any(duplicated(x)))
+      }
+      return(FALSE)
     },
 
     #' @description A list of the identifiers used for the data
@@ -72,11 +76,10 @@ AutomatedTest <- R6::R6Class(
     },
 
     #' @description updates the compare_to variable. Is public because the
-    #' compare value, can get changed depending on the type of test.
+    #' compare value can get changed depending on the type of test.
     setCompareTo = function(compare_to) {
       private$.compare_to <- compare_to
     },
-
 
     #' @description Get the data types of the features in the object
     #' @return A list of datatypes (e.g., Quantitative or Qualitative)
@@ -131,7 +134,7 @@ AutomatedTest <- R6::R6Class(
     #' @return TRUE / FALSE depending on the significance of the test.
     isSignificant = function() {
       return(self$getResult()$p.value < 0.05)
-    }
+    },
 
     #' @description Print a summary of the test object
     print = function() {
@@ -146,7 +149,7 @@ AutomatedTest <- R6::R6Class(
 
       cat("Test: ", self$getTest(), "\n")
       cat("Results:\n  p.value: ", self$getResult()$p.value, "\n")
-      cat("  Significant: ", self$isSignificant())
+      cat("  Significant: ", self$isSignificant(), "\n")
     }
   )
 )

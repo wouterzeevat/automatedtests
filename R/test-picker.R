@@ -58,7 +58,7 @@ pick_two_variable_test <- function(test_object) {
     #  return("Chi-square test of independence")
     #}
 
-    if (test_object$hasIdentifiers()) {
+    if (test_object$isPaired()) {
       if (length(unique(data[1])) > 2 || length(unique(data[2])) > 2) {
         return("Cochran's Q test")
       }
@@ -80,7 +80,7 @@ pick_two_variable_test <- function(test_object) {
 
   # Qualitative & Quantitative
   if (length(unique(data[[qual_index]])) > 2) {
-    if (test_object$hasIdentifiers()) {
+    if (test_object$isPaired()) {
       if (test_object$isParametric()) {
         return("Repeated messures ANOVA")
       }

@@ -45,7 +45,7 @@ get_test_from_string <- function(test_object) {
     quan_index <- which(test_object$getDatatypes() == "Quantitative")
 
     # For paired test process identifiers
-    if (test_object$hasIdentifiers()) {
+    if (test_object$isPaired()) {
       df <- data.frame(
         id = test_object$getIdentifiers(),
         condition = as.factor(data[[qual_index]]),
