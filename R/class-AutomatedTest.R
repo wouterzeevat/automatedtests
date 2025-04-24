@@ -121,17 +121,22 @@ AutomatedTest <- R6::R6Class(
       return(private$.test)
     },
 
-    #' @description Get the reslult of selected statistical test
+    #' @description Get the result of selected statistical test
     #' @return The result of the statistical test
     getResult = function() {
       return(private$.result)
     },
 
+    #' @description Whether the test results are significant or not.
+    #' @return TRUE / FALSE depending on the significance of the test.
+    isSignificant = function() {
+      return(self$getResult()$p.value < 0.05)
+    }
 
     #' @description Print a summary of the test object
     print = function() {
       cat("Automated Test:\n")
-      cat("Data: ", colnames(self$getData()), "\n")
+      cat("Data: ", paste0(colnames(self$getData()), collapse = ", "), "\n")
 
       # If one sample test
       size <- ncol(self$getData())
@@ -141,7 +146,7 @@ AutomatedTest <- R6::R6Class(
 
       cat("Test: ", self$getTest(), "\n")
       cat("Results:\n  p.value: ", self$getResult()$p.value, "\n")
-      cat("  Significant: ", self$getResult()$p.value < 0.05)
+      cat("  Significant: ", self$isSignificant())
     }
   )
 )

@@ -100,6 +100,10 @@ pick_two_variable_test <- function(test_object) {
 }
 
 pick_multiple_variable_test <- function(test_object) {
+
+  types <- test_object$getDatatypes()
+  data <- test_object$getData()
+
   # If binary / 2 groups
   if (length(unique(data[[1]])) == 2 && all(unique(data[[1]]) %in% c(0, 1, TRUE, FALSE)) ||
       !is.numeric(data[[1]]) && length(unique(data[[1]])) == 2) {
