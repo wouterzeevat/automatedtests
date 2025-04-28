@@ -106,6 +106,12 @@ get_test_from_string <- function(test_object) {
            predictors <- colnames(data[-1])
            formula <- as.formula(paste(colnames(data)[1], " ~", paste(predictors, collapse = " + ")))
            test <- lm(formula, data = data)
+
+           model_summary <- summary(test)
+           f_statistic <- model_summary$fstatistic[1]
+           numdf <- model_summary$fstatistic[2]
+           dendf <- model_summary$fstatistic[3]
+           test$p.value <- pf(f_statistic, numdf, dendf, lower.tail = FALSE)
            return(test)
          },
 
@@ -180,7 +186,9 @@ get_test_from_string <- function(test_object) {
          },
 
          "One-way ANOVA" = {
-           return(aov(data[[quan_index]] ~ data[[qual_index]]))
+           test <- aov(data[[quan_index]] ~ data[[qual_index]])
+           test$p.value <- summary(test)[[1]]$`Pr(>F)`[1]
+           return(test)
          },
 
          "Welch's ANOVA" = {
@@ -188,7 +196,10 @@ get_test_from_string <- function(test_object) {
          },
 
          "Repeated measures ANOVA" = {
-           return(aov(value ~ condition + Error(id/condition), data = df))
+
+           test <- aov(value ~ condition + Error(id/condition), data = df)
+           test$p.value <- summary(test)[[3]][[1]]$`Pr(>F)`[[1]] # P value
+           return(test)
          },
 
          "Kruskal-Wallis test" = {

@@ -1,8 +1,8 @@
-# automaticalTest
+# automatedtest
 
 Automatically select and run the best statistical test for your data with just one line of code. Supporting one-sample-tests, two-sample-tests, multiple-sample-tests, and even correlations!
 
-## What is `automaticedtest`?
+## What is `automatedtest`?
 
 `automatedtests` is an R package designed to simplify statistical testing. It automatically analyzes your data, determines the most fitting statistical test (based on structure and content), and executes it. shortening the time spent deciding what test to use.
 
@@ -119,10 +119,6 @@ These are automatically handled during installation.
 ## Author
 
 Wouter Zeevat
-
-## See Also
-
-- `AutomatedTest` – the class used to store test results.
 
 ## License
 

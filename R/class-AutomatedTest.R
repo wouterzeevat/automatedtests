@@ -57,7 +57,7 @@ AutomatedTest <- R6::R6Class(
     #' @return Whether the data is paired (TRUE/FALSE)
     isPaired = function() {
       if (length(private$.identifiers) > 1) {
-        return(any(duplicated(x)))
+        return(any(duplicated(private$.identifiers)))
       }
       return(FALSE)
     },
