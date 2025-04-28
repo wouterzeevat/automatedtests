@@ -15,7 +15,8 @@ The package supports a tidy data frames and a set of numeric/categorical vectors
 - Returns an `AutomatedTest` object with full test results and a `$getResult()` method for summaries.
 
 ### Supported Tests
-# | Test Name
+| number     | test |
+|--------------|-------------|
 | 1 | One-proportion test
 | 2 | Chi-square goodness-of-fit test
 | 3 | One-sample Student's t-test
