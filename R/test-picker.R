@@ -82,7 +82,7 @@ pick_two_variable_test <- function(test_object) {
   if (length(unique(data[[qual_index]])) > 2) {
     if (test_object$isPaired()) {
       if (test_object$isParametric()) {
-        return("Repeated messures ANOVA")
+        return("Repeated measures ANOVA")
       }
       return("Friedman test")
     }

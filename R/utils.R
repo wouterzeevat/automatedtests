@@ -187,7 +187,7 @@ get_test_from_string <- function(test_object) {
            return(oneway.test(data[[quan_index]] ~ data[[qual_index]], var.equal = FALSE))
          },
 
-         "Repeated messures ANOVA" = {
+         "Repeated measures ANOVA" = {
            return(aov(value ~ condition + Error(id/condition), data = df))
          },
 
