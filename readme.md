@@ -16,29 +16,29 @@ The package supports a tidy data frames and a set of numeric/categorical vectors
 
 ### Supported Tests
 # | Test Name
-1 | One-proportion test
-2 | Chi-square goodness-of-fit test
-3 | One-sample Student's t-test
-4 | One-sample Wilcoxon test
-5 | Multiple linear regression
-6 | Binary logistic regression
-7 | Multinomial logistic regression
-8 | Pearson correlation
-9 | Spearman's rank correlation
-10 | Cochran's Q test
-11 | McNemar's test
-12 | Fisher's exact test
-13 | Chi-square test of independence
-14 | Student's t-test for independent samples
-15 | Welch's t-test for independent samples
-16 | Mann-Whitney U test
-17 | Student's t-test for paired samples
-18 | Wilcoxon signed-rank test
-19 | One-way ANOVA
-20 | Welch's ANOVA
-21 | Repeated measures ANOVA
-22 | Kruskal-Wallis test
-23 | Friedman test
+| 1 | One-proportion test
+| 2 | Chi-square goodness-of-fit test
+| 3 | One-sample Student's t-test
+| 4 | One-sample Wilcoxon test
+| 5 | Multiple linear regression
+| 6 | Binary logistic regression
+| 7 | Multinomial logistic regression
+| 8 | Pearson correlation
+| 9 | Spearman's rank correlation
+| 10 | Cochran's Q test
+| 11 | McNemar's test
+| 12 | Fisher's exact test
+| 13 | Chi-square test of independence
+| 14 | Student's t-test for independent samples
+| 15 | Welch's t-test for independent samples
+| 16 | Mann-Whitney U test
+| 17 | Student's t-test for paired samples
+| 18 | Wilcoxon signed-rank test
+| 19 | One-way ANOVA
+| 20 | Welch's ANOVA
+| 21 | Repeated measures ANOVA
+| 22 | Kruskal-Wallis test
+| 23 | Friedman test
 
 ## Installation
 
