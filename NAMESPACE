@@ -3,3 +3,5 @@
 export(AutomatedTest)
 export(automatical_test)
 importFrom(R6,R6Class)
+importFrom(nnet, multinom)
+

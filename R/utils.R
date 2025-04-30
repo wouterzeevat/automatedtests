@@ -27,7 +27,7 @@ check_parametric <- function(data) {
 #' Returns a statistical test function based on the name
 #' of a test. (Internal Function)
 #'
-#' @importFrom MASS lm
+#' @import nnet
 #'
 #' @param name The name of a function
 #' @param data The data to be used within the statistical test
