@@ -95,7 +95,7 @@ AutomatedTest <- R6::R6Class(
     getDatatypes = function() {
       result <- c()
       for (feature in names(self$getData())) {
-        if (is.numeric(self$getData()[[feature]]) && !(unique(data[[1]]) %in% c(0, 1))) {
+        if (is.numeric(self$getData()[[feature]]) && !(unique(self$getData()[[1]]) %in% c(0, 1))) {
           result <- append(result, "Quantitative")
         } else {
           result <- append(result, "Qualitative")
