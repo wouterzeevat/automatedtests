@@ -14,6 +14,7 @@ AutomatedTest <- R6::R6Class(
     .compare_to = numeric(0),
     .test = character(0),
     .result = NULL,
+    .paired = NULL,
 
     # Private methods
     .setTest = function(test) {
@@ -36,10 +37,11 @@ AutomatedTest <- R6::R6Class(
     #' @param data A dataframe containing the data for the test.
     #' @param identifiers A vector with the identifiers.
     #' @param compare_to value to compare to for comparison in one-sample tests.
-    initialize = function(data, identifiers, compare_to = NULL) {
+    initialize = function(data, identifiers, compare_to = NULL, paired = FALSE) {
       private$.data <- data
       private$.identifiers <- identifiers
       private$.compare_to <- compare_to
+      private$.paired <- paired
 
       private$.setTest(pick_test(test_object = self))
       private$.setResult(get_test_from_string(test_object = self))
@@ -54,8 +56,15 @@ AutomatedTest <- R6::R6Class(
 
     #' @description shows if the data is paired, if there are multiple rows with the same identifier, the data has more
     #' samples (TIDY DATA). Making the data paired
+    #'
+    #' When paired is set to FALSE manually, columns will be viewed as paired, otherwise identifiers will take care of paired data
+    #' This is mostly for "McNemar", and "Cochran" tests
+    #'
     #' @return Whether the data is paired (TRUE/FALSE)
     isPaired = function() {
+      if (private$.paired) {
+        return(TRUE)
+      }
       if (length(private$.identifiers) > 1) {
         return(any(duplicated(private$.identifiers)))
       }
@@ -86,7 +95,7 @@ AutomatedTest <- R6::R6Class(
     getDatatypes = function() {
       result <- c()
       for (feature in names(self$getData())) {
-        if (is.numeric(self$getData()[[feature]])) {
+        if (is.numeric(self$getData()[[feature]]) && !(unique(data[[1]]) %in% c(0, 1))) {
           result <- append(result, "Quantitative")
         } else {
           result <- append(result, "Qualitative")

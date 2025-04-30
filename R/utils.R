@@ -108,10 +108,7 @@ get_test_from_string <- function(test_object) {
            test <- lm(formula, data = data)
 
            model_summary <- summary(test)
-           f_statistic <- model_summary$fstatistic[1]
-           numdf <- model_summary$fstatistic[2]
-           dendf <- model_summary$fstatistic[3]
-           test$p.value <- pf(f_statistic, numdf, dendf, lower.tail = FALSE)
+           test$p.value <- coef(model_summary)[-1, "Pr(>|t|)"]
            return(test)
          },
 
@@ -119,6 +116,9 @@ get_test_from_string <- function(test_object) {
            predictors <- colnames(data[-1])
            formula <- as.formula(paste(colnames(data)[1], " ~", paste(predictors, collapse = " + ")))
            test <- glm(formula, data = data, family = binomial())
+
+           model_summary <- summary(test)
+           test$p.value <- coef(model_summary)[-1, "Pr(>|z|)"]
            return(test)
          },
 
@@ -126,6 +126,19 @@ get_test_from_string <- function(test_object) {
            predictors <- colnames(data[-1])
            formula <- as.formula(paste(colnames(data)[1], " ~", paste(predictors, collapse = " + ")))
            test <- nnet::multinom(formula, data = data)
+
+           model_summary <- summary(test)
+
+           # CHATGPT
+           z_values <- model_summary$coefficients / model_summary$standard.errors
+           p_values_matrix <- 2 * (1 - pnorm(abs(z_values)))
+
+           # Aggregate p-values across all outcome levels per predictor
+           # For example, take the max (most conservative)
+           predictor_pvals <- apply(p_values_matrix, 2, max)
+
+           # Convert to named list
+           test$p.value <- predictor_pvals
            return(test)
          },
 

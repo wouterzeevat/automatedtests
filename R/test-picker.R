@@ -17,6 +17,11 @@ pick_test <- function(test_object) {
   return(pick_multiple_variable_test(test_object))
 }
 
+#' Pick the appropriate test for one variable (Internal Function)
+#'
+#' @param test_object An object containing the data, data types, and comparison value.
+#' @return A character string with the name of the appropriate one-sample statistical test.
+#' @keywords internal
 pick_one_variable_test <- function(test_object) {
   stopifnot(!is.null(test_object$getCompareTo()) || !is.numeric(test_object$getCompareTo()))
 
@@ -38,6 +43,11 @@ pick_one_variable_test <- function(test_object) {
   return("One-sample Wilcoxon test")
 }
 
+#' Pick the appropriate test for two variables (Internal Function)
+#'
+#' @param test_object An object containing the data, types, and metadata needed for test selection.
+#' @return A character string with the name of the appropriate statistical test.
+#' @keywords internal
 pick_two_variable_test <- function(test_object) {
   types <- test_object$getDatatypes()
   data <- test_object$getData()
@@ -99,6 +109,11 @@ pick_two_variable_test <- function(test_object) {
 
 }
 
+#' Pick the appropriate test for multiple variables (Internal Function)
+#'
+#' @param test_object An object containing the data, types, and metadata needed for test selection.
+#' @return A character string with the name of the appropriate regression or classification model.
+#' @keywords internal
 pick_multiple_variable_test <- function(test_object) {
 
   types <- test_object$getDatatypes()

@@ -6,7 +6,9 @@
 #' @param compare_to A numeric value to compare against during a ONE SAMPLE TEST.
 #' If data is categorical, the value will be 1 / column size by default (assuming uniform data).
 #' When numerical, the value will be 0 by default (comparing to 0)
-#' @param identifiers Logical; if TRUE, the first column/vector is treated as identifiers and excluded from testing.
+#' @param identifiers Logical; if TRUE, the first column/vector is treated as identifiers and excluded from testing. This will check if the test has to be paired
+#' @param paired Logical; if TRUE, the test will be paired no matter the identifiers are (for mcnemar and cochran test that do not need identifiers specifically)
+
 #'
 #' @return An object of class `AutomatedTest`.
 #' @export
@@ -22,7 +24,7 @@
 #' # Results:
 #' #   p.value:  3.981442e-05
 #' #   Significant:  TRUE
-automatical_test <- function(..., compare_to = NULL, identifiers = FALSE) {
+automatical_test <- function(..., compare_to = NULL, identifiers = FALSE, paired = FALSE) {
 
   args <- list(...)
 
@@ -46,7 +48,7 @@ automatical_test <- function(..., compare_to = NULL, identifiers = FALSE) {
 
   # Create and return the AutomatedTest object
   if (is.null(compare_to)) {
-    return(AutomatedTest$new(data, ids))
+    return(AutomatedTest$new(data, ids, paired=paired))
   }
-  return(AutomatedTest$new(data, ids, compare_to))
+  return(AutomatedTest$new(data, ids, compare_to, paired=paired))
 }

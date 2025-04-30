@@ -2,22 +2,27 @@
 \alias{automatical_test}
 \title{Automatically Run a Statistical Test}
 \description{
-  Automatically choose the best fitting statistical test for your data, and returns an easily readable `AutomatedTest` object from either a data frame or individual vectors. This object contains the executed test together with all statistics and properties.
+  Automatically choose the best fitting statistical test for your data, and returns an easily readable \code{AutomatedTest} object from either a data frame or individual vectors. This object contains the executed test together with all statistics and properties.
 }
 \usage{
-  automatical_test(..., compare_to = NULL, identifiers = FALSE)
+  automatical_test(..., compare_to = NULL, identifiers = FALSE, paired = FALSE)
 }
 \arguments{
   \item{...}{
     Either a single data frame or multiple equal-length vectors representing columns of data.
   }
   \item{compare_to}{
-  A numeric value to compare against during a one-sample test.
-  If the data is categorical, the value will default to \eqn{\frac{1}{k}},
-  where \eqn{k} is the number of categories, assuming a uniform distribution. If numeric, the default will be 0.
+    A numeric value to compare against during a one-sample test.
+    If the data is categorical, the value will default to \eqn{1/k},
+    where \eqn{k} is the number of categories, assuming a uniform distribution.
+    If numeric, the default will be 0.
   }
   \item{identifiers}{
     Logical; if TRUE, the first column/vector is treated as identifiers and excluded from testing.
+  }
+  \item{paired}{
+    Logical; if TRUE, the test will be performed as paired if applicable, regardless of whether identifiers are provided.
+    This applies to paired tests like McNemar's or the Cochran Q test.
   }
 }
 \value{
@@ -34,11 +39,13 @@
   When a multiple group test is selected (i.e., more than two groups, columns, or variables are used),
   the first non-identifier column will be used as the grouping or target variable, meaning all other variables will be tested against it.
 
-  If you want to override the defaults, you can change the \code{compare_to} value to specify one sample tests.
+  The \code{paired} parameter can be used to force paired testing for supported tests (such as McNemar's test or Cochran's Q),
+  even if identifiers are not explicitly included in the input.
+
+  If you want to override the defaults, you can change the \code{compare_to} value to specify one-sample tests.
 
   Once the test has been executed, you can use the method \code{$getResult()} on the resulting object to get more detailed information about the test's execution, including a summary of the test used and all statistics.
 }
-
 \examples{
   # Example 1: Using a data frame
   test1 <- automatical_test(iris)
@@ -46,13 +53,8 @@
   # Example 2: Using individual vectors
   test2 <- automatical_test(iris$Species, iris$Sepal.Length, identifiers = FALSE)
 
-  # Example output when calling automatical_test with a data vector:
-  # Automated Test:
-  # Data:  Buy, Age
-  # Test:  Spearman's rank correlation
-  # Results:
-  #   p.value:  3.981442e-05
-  #   Significant:  TRUE
+  # Example 3: Forcing a paired test
+  test3 <- automatical_test(before_data, after_data, paired = TRUE)
 
   # Retrieve more detailed information about the test
   # test1$getResult()
