@@ -8,7 +8,7 @@ inst}
 pick_test(test_object)
 }
 \arguments{
-\item{data}{The data to check (vector of integers).}
+\item{test_object}{The data to check (vector of integers).}
 }
 \value{
 TRUE if data is normalized, FALSE otherwise.

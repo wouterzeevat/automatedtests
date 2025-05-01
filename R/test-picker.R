@@ -1,7 +1,7 @@
 #' Check if a dataframe is parametric (Internal Function)
 #'inst
 #'
-#' @param data The data to check (vector of integers).
+#' @param test_object The data to check (vector of integers).
 #' @return TRUE if data is normalized, FALSE otherwise.
 #' @keywords internal
 pick_test <- function(test_object) {

@@ -7,8 +7,8 @@ Authors@R: person(given = "Wouter",
                   role = c("aut", "cre"),
                   email = "wouterzeevat@gmail.com")
 Maintainer: Wouter Zeevat <wouterzeevat@gmail.com>
-Description: Automates the selection of appropriate statistical tests based on the characteristics of input data. This package aims to simplify statistical workflows for users with varying levels of statistical expertise.
-License: MIT + file LICENSE
+Description: A tool for simplifying the selection of appropriate statistical tests based on input data, making statistical workflows easier for users of all experience levels.
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/wouterzeevat/automatedtests

@@ -122,4 +122,12 @@ Wouter Zeevat
 
 ## License
 
-MIT License
+This package is licensed under the **GPL-3** License.
+
+You can freely use, modify, and redistribute the software under the terms of the **GNU General Public License v3** (GPL-3). The key conditions of the GPL-3 license are:
+
+- You can use the package for personal, academic, or commercial purposes.
+- If you modify the package and distribute it, you must distribute the source code of your modified version.
+- Any derivative work must also be licensed under **GPL-3**.
+
+For more information, see the full [GPL-3 License](https://www.gnu.org/licenses/gpl-3.0.html).
