@@ -1,10 +1,25 @@
-#' Check if a dataframe is parametric (Internal Function)
-#'inst
+#' Internal: Check if a numeric vector follows a normal distribution
 #'
-#' @param data The data to check (vector of integers).
-#' @return TRUE if data is normalized, FALSE otherwise. If data is not numeric
-#' the function will return NULL
+#' This function checks whether a numeric vector is approximately normally distributed,
+#' using the Shapiro-Wilk test for small samples (n < 5000) and the Anderson-Darling test
+#' for larger ones. If the input is not numeric, the function returns \code{NULL}.
+#'
+#' @param data A numeric vector to test for normality.
+#'
+#' @return A list containing:
+#' \describe{
+#'   \item{test}{Name of the test used ("Shapiro-Wilk Test" or "Anderson-Darling Test")}
+#'   \item{statistic}{The test statistic}
+#'   \item{p_value}{The p-value from the test}
+#'   \item{result}{Logical; \code{TRUE} if p > 0.05 (assumed normal), \code{FALSE} otherwise}
+#' }
+#'
+#' Returns \code{NULL} if input is not numeric.
+#'
 #' @keywords internal
+#'
+#' @importFrom stats shapiro.test
+#' @importFrom nortest ad.test
 check_parametric <- function(data) {
   if (!is.numeric(data)) return(NULL)
 
@@ -24,15 +39,25 @@ check_parametric <- function(data) {
   ))
 }
 
-#' Returns a statistical test function based on the name
-#' of a test. (Internal Function)
+#' Internal: Returns the result of a statistical test based on a string identifier
 #'
-#' importFrom(nnet, multinom)
+#' This internal function selects and runs a statistical test using data from a test object,
+#' based on the name of the test specified. It supports a wide variety of tests including
+#' t-tests, chi-square tests, ANOVA, correlation tests, regression models, and more.
 #'
-#' @param name The name of a function
-#' @param data The data to be used within the statistical test
-#' @return The corresponding function as a string, later to be ran.
+#' @param test_object An object containing data, identifiers, datatypes, and test selection.
+#'
+#' @return The result of the selected statistical test. Typically, this is a test object with
+#'         class `htest`, `aov`, `lm`, or similar.
+#'
 #' @keywords internal
+#'
+#' @importFrom stats prop.test chisq.test t.test wilcox.test as.formula lm coef glm binomial
+#' @importFrom stats pnorm cor.test mcnemar.test fisher.test aov oneway.test kruskal.test
+#' @importFrom stats friedman.test shapiro.test bartlett.test
+#' @importFrom nortest ad.test
+#' @importFrom RVAideMemoire cochran.qtest
+#' @importFrom nnet multinom
 get_test_from_string <- function(test_object) {
   data <- test_object$getData()
   identifiers <- test_object$getIdentifiers()
@@ -152,7 +177,7 @@ get_test_from_string <- function(test_object) {
 
          "Cochran's Q test" = {
            tab <- table(data[[1]], data[[2]])
-           return(cochran.qtest(tab))
+           return(RVAideMemoire::cochran.qtest(tab))
          },
 
          "McNemar's test" = {

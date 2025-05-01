@@ -115,7 +115,6 @@ pick_two_variable_test <- function(test_object) {
 #' @return A character string with the name of the appropriate regression or classification model.
 #' @keywords internal
 pick_multiple_variable_test <- function(test_object) {
-
   types <- test_object$getDatatypes()
   data <- test_object$getData()
 

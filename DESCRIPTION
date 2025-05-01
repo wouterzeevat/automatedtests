@@ -1,18 +1,28 @@
 Package: automatedtests
 Type: Package
-Title: Automating choosing statistical tests
+Title: Automating Choosing Statistical Tests
 Version: 0.1.0
-Author: Wouter Zeevat
+Authors@R: person(given = "Wouter",
+                  family = "Zeevat",
+                  role = c("aut", "cre"),
+                  email = "wouterzeevat@gmail.com")
 Maintainer: Wouter Zeevat <wouterzeevat@gmail.com>
-Description: description
-License: GPL-3
+Description: Automates the selection of appropriate statistical tests based on the characteristics of input data. This package aims to simplify statistical workflows for users with varying levels of statistical expertise.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Remotes:
-    github::wouterzeevat/automatedtests
+URL: https://github.com/wouterzeevat/automatedtests
+BugReports: https://github.com/wouterzeevat/automatedtests/issues
+RoxygenNote: 7.3.2
+VignetteBuilder: knitr
+Suggests:
+    knitr,
+    rmarkdown
 Imports:
     R6,
-    nnet
+    nnet,
+    nortest,
+    stats,
+    RVAideMemoire
 Depends:
     R (>= 4.0.4)
-RoxygenNote: 7.3.2

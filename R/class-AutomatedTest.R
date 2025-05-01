@@ -2,7 +2,6 @@
 #'
 #' @description The AutomatedTest class represents a result of a statistical test. It contains attributes such as the p-value, degrees of freedom, and more.
 #'
-#'
 #' @importFrom R6 R6Class
 #' @export
 AutomatedTest <- R6::R6Class(
@@ -36,7 +35,8 @@ AutomatedTest <- R6::R6Class(
     #' @description Initialize an instance of the AutomatedTest class
     #' @param data A dataframe containing the data for the test.
     #' @param identifiers A vector with the identifiers.
-    #' @param compare_to value to compare to for comparison in one-sample tests.
+    #' @param compare_to Numeric value to compare to for comparison in one-sample tests. Default is NULL.
+    #' @param paired Logical; if TRUE, the test will be performed as paired if applicable. Default is FALSE.
     initialize = function(data, identifiers, compare_to = NULL, paired = FALSE) {
       private$.data <- data
       private$.identifiers <- identifiers
@@ -45,7 +45,6 @@ AutomatedTest <- R6::R6Class(
 
       private$.setTest(pick_test(test_object = self))
       private$.setResult(get_test_from_string(test_object = self))
-
     },
 
     #' @description Get the data used in the test
@@ -54,13 +53,10 @@ AutomatedTest <- R6::R6Class(
       return(private$.data)
     },
 
-    #' @description shows if the data is paired, if there are multiple rows with the same identifier, the data has more
-    #' samples (TIDY DATA). Making the data paired
+    #' @description Shows if the data is paired, if there are multiple rows with the same identifier, the data has more
+    #' samples (TIDY DATA). Making the data paired.
     #'
-    #' When paired is set to FALSE manually, columns will be viewed as paired, otherwise identifiers will take care of paired data
-    #' This is mostly for "McNemar", and "Cochran" tests
-    #'
-    #' @return Whether the data is paired (TRUE/FALSE)
+    #' @return Whether the data is paired (TRUE/FALSE).
     isPaired = function() {
       if (private$.paired) {
         return(TRUE)
@@ -73,7 +69,6 @@ AutomatedTest <- R6::R6Class(
 
     #' @description A list of the identifiers used for the data
     #' @return Returns the identifiers
-    #' The test is always UNPAIRED
     getIdentifiers = function() {
       return(private$.identifiers)
     },
@@ -84,18 +79,20 @@ AutomatedTest <- R6::R6Class(
       return(private$.compare_to)
     },
 
-    #' @description updates the compare_to variable. Is public because the
+    #' @description Updates the compare_to variable. Is public because the
     #' compare value can get changed depending on the type of test.
+    #' @param compare_to Numeric value to compare to.
+    #' @return Updated object with comparison value set.
     setCompareTo = function(compare_to) {
       private$.compare_to <- compare_to
     },
 
     #' @description Get the data types of the features in the object
-    #' @return A list of datatypes (e.g., Quantitative or Qualitative)
+    #' @return A list of data types (e.g., Quantitative or Qualitative)
     getDatatypes = function() {
       result <- c()
       for (feature in names(self$getData())) {
-        if (is.numeric(self$getData()[[feature]]) && !(unique(self$getData()[[1]]) %in% c(0, 1))) {
+        if (is.numeric(self$getData()[[feature]]) && all(!(unique(self$getData()[[feature]]) %in% c(0,1)))) {
           result <- append(result, "Quantitative")
         } else {
           result <- append(result, "Qualitative")

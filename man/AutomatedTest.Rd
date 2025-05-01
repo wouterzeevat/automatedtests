@@ -11,8 +11,7 @@ The AutomatedTest class represents a result of a statistical test. It contains a
 \itemize{
 \item \href{#method-AutomatedTest-new}{\code{AutomatedTest$new()}}
 \item \href{#method-AutomatedTest-getData}{\code{AutomatedTest$getData()}}
-\item \href{#method-AutomatedTest-getSubsets}{\code{AutomatedTest$getSubsets()}}
-\item \href{#method-AutomatedTest-hasIdentifiers}{\code{AutomatedTest$hasIdentifiers()}}
+\item \href{#method-AutomatedTest-isPaired}{\code{AutomatedTest$isPaired()}}
 \item \href{#method-AutomatedTest-getIdentifiers}{\code{AutomatedTest$getIdentifiers()}}
 \item \href{#method-AutomatedTest-getCompareTo}{\code{AutomatedTest$getCompareTo()}}
 \item \href{#method-AutomatedTest-setCompareTo}{\code{AutomatedTest$setCompareTo()}}
@@ -21,6 +20,7 @@ The AutomatedTest class represents a result of a statistical test. It contains a
 \item \href{#method-AutomatedTest-isParametric}{\code{AutomatedTest$isParametric()}}
 \item \href{#method-AutomatedTest-getTest}{\code{AutomatedTest$getTest()}}
 \item \href{#method-AutomatedTest-getResult}{\code{AutomatedTest$getResult()}}
+\item \href{#method-AutomatedTest-isSignificant}{\code{AutomatedTest$isSignificant()}}
 \item \href{#method-AutomatedTest-print}{\code{AutomatedTest$print()}}
 \item \href{#method-AutomatedTest-clone}{\code{AutomatedTest$clone()}}
 }
@@ -31,7 +31,7 @@ The AutomatedTest class represents a result of a statistical test. It contains a
 \subsection{Method \code{new()}}{
 Initialize an instance of the AutomatedTest class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$new(data, subsets, identifiers, compare_to)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$new(data, identifiers, compare_to = NULL, paired = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -39,9 +39,11 @@ Initialize an instance of the AutomatedTest class
 \describe{
 \item{\code{data}}{A dataframe containing the data for the test.}
 
-\item{\code{subsets}}{A vector with subsets in the data.}
+\item{\code{identifiers}}{A vector with the identifiers.}
 
-\item{\code{compare_to}}{A numeric value for comparison in one-sample tests.}
+\item{\code{compare_to}}{Numeric value to compare to for comparison in one-sample tests. Default is NULL.}
+
+\item{\code{paired}}{Logical; if TRUE, the test will be performed as paired if applicable. Default is FALSE.}
 }
 \if{html}{\out{</div>}}
 }
@@ -56,34 +58,21 @@ Get the data used in the test
 }
 
 \subsection{Returns}{
-A dataframe with the data except the subsets
+A dataframe with all features
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-getSubsets"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-getSubsets}{}}}
-\subsection{Method \code{getSubsets()}}{
-Get the subsets used in the test
+\if{html}{\out{<a id="method-AutomatedTest-isPaired"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-isPaired}{}}}
+\subsection{Method \code{isPaired()}}{
+Shows if the data is paired, if there are multiple rows with the same identifier, the data has more
+samples (TIDY DATA). Making the data paired.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getSubsets()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$isPaired()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
-A vector containing subset information
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-hasIdentifiers"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-hasIdentifiers}{}}}
-\subsection{Method \code{hasIdentifiers()}}{
-Get the identifier variable
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$hasIdentifiers()}\if{html}{\out{</div>}}
-}
-
-\subsection{Returns}{
-Whether the data has an identifier, if not
-The test is always UNPAIRED
+Whether the data is paired (TRUE/FALSE).
 }
 }
 \if{html}{\out{<hr>}}
@@ -97,7 +86,6 @@ A list of the identifiers used for the data
 
 \subsection{Returns}{
 Returns the identifiers
-The test is always UNPAIRED
 }
 }
 \if{html}{\out{<hr>}}
@@ -117,12 +105,22 @@ A numeric value for comparison
 \if{html}{\out{<a id="method-AutomatedTest-setCompareTo"></a>}}
 \if{latex}{\out{\hypertarget{method-AutomatedTest-setCompareTo}{}}}
 \subsection{Method \code{setCompareTo()}}{
-updates the compare_to variable. Is public because the
-compare value, can get changed depending on the type of test.
+Updates the compare_to variable. Is public because the
+compare value can get changed depending on the type of test.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$setCompareTo(compare_to)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{compare_to}}{Numeric value to compare to.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Updated object with comparison value set.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-AutomatedTest-getDatatypes"></a>}}
@@ -134,14 +132,14 @@ Get the data types of the features in the object
 }
 
 \subsection{Returns}{
-A list of datatypes (e.g., Quantitative or Qualitative)
+A list of data types (e.g., Quantitative or Qualitative)
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-AutomatedTest-getParametricList"></a>}}
 \if{latex}{\out{\hypertarget{method-AutomatedTest-getParametricList}{}}}
 \subsection{Method \code{getParametricList()}}{
-Get the parametric test results of the features and subsets
+Get the parametric test results of the features
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getParametricList()}\if{html}{\out{</div>}}
 }
@@ -180,13 +178,26 @@ The name of the statistical test
 \if{html}{\out{<a id="method-AutomatedTest-getResult"></a>}}
 \if{latex}{\out{\hypertarget{method-AutomatedTest-getResult}{}}}
 \subsection{Method \code{getResult()}}{
-Get the reslult of selected statistical test
+Get the result of selected statistical test
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getResult()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
 The result of the statistical test
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-AutomatedTest-isSignificant"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-isSignificant}{}}}
+\subsection{Method \code{isSignificant()}}{
+Whether the test results are significant or not.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$isSignificant()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+TRUE / FALSE depending on the significance of the test.
 }
 }
 \if{html}{\out{<hr>}}

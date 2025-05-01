@@ -1,0 +1,82 @@
+
+---
+title: "Automated Statistical Test"
+author: "Wouter Zeevat"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Automated Statistical Test}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage{graphicx}
+---
+
+# Introduction
+
+The `automatedtests` package automates the selection of the most appropriate statistical test based on the characteristics of your data. This vignette demonstrates how to use the main function `automatical_test()` to perform automated statistical testing.
+
+The function works with both individual vectors or a data frame and provides the results in an easy-to-understand format, which includes the test used and all the relevant statistics.
+
+# Usage of `automatical_test()`
+
+The `automatical_test()` function can be used with both individual vectors or a data frame. It automatically selects the most suitable statistical test based on the data provided.
+
+## Example 1: Using Individual Vectors
+
+In this example, we will use two vectors: `Species` and `Sepal.Length` from the `iris` dataset. We will use the `automatical_test()` function to automatically choose the best statistical test for these vectors.
+
+```{r}
+# Load the package
+library(automatedtests)
+
+# Example 1: Using individual vectors from the iris dataset
+test1 <- automatical_test(iris$Species, iris$Sepal.Length, identifiers = FALSE)
+
+# View the result summary
+print(test1$getResult())
+```
+
+In this case, the function automatically selects the best statistical test based on the data's distribution and other characteristics.
+
+## Example 2: Forcing a Paired Test
+
+Here, we simulate a before-and-after scenario, where data is collected before and after an intervention. The `automatical_test()` function can be instructed to use paired tests by setting the `paired` argument to `TRUE`.
+
+```{r}
+# Example 2: Forcing a paired test
+before <- c(200, 220, 215, 205, 210)
+after <- c(202, 225, 220, 210, 215)
+paired_data <- data.frame(before, after)
+
+# Perform the paired test
+test2 <- automatical_test(before, after, paired = TRUE)
+
+# View the result summary
+print(test2$getResult())
+```
+
+By setting `paired = TRUE`, the function forces the use of a paired statistical test, even if identifiers are not provided.
+
+## Example 3: One-Sample Test with Custom Compare Value
+
+You can override the default `compare_to` value to perform one-sample tests. For example, you can test whether the data differs significantly from a specified value.
+
+```{r}
+# Example 3: One-sample test
+test3 <- automatical_test(iris$Sepal.Length, compare_to = 5)
+
+# View the result summary
+print(test3$getResult())
+```
+
+In this case, `compare_to = 5` specifies that we are performing a one-sample test where we compare the `Sepal.Length` to the value 5.
+
+# Conclusion
+
+The `automatical_test()` function simplifies the process of selecting and running statistical tests. It automatically picks the most appropriate test based on the data's structure and characteristics. You can fine-tune its behavior with options like `compare_to`, `identifiers`, and `paired`.
+
+For more detailed information on the results of each test, you can use the `getResult()` method to retrieve a summary of the test performed.
+
+# See Also
+
+- `AutomatedTest` class for the object returned by the `automatical_test()` function.
+- `automatedtests` package documentation.
+

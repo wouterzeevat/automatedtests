@@ -47,14 +47,14 @@
   Once the test has been executed, you can use the method \code{$getResult()} on the resulting object to get more detailed information about the test's execution, including a summary of the test used and all statistics.
 }
 \examples{
-  # Example 1: Using a data frame
-  test1 <- automatical_test(iris)
+  # Example 1: Using individual vectors
+  test1 <- automatical_test(iris$Species, iris$Sepal.Length, identifiers = FALSE)
 
-  # Example 2: Using individual vectors
-  test2 <- automatical_test(iris$Species, iris$Sepal.Length, identifiers = FALSE)
-
-  # Example 3: Forcing a paired test
-  test3 <- automatical_test(before_data, after_data, paired = TRUE)
+  # Example 2: Forcing a paired test
+  before <- c(200, 220, 215, 205, 210)
+  after <- c(202, 225, 220, 210, 215)
+  paired_data <- data.frame(before, after)
+  test2 <- automatical_test(before, after, paired = TRUE)
 
   # Retrieve more detailed information about the test
   # test1$getResult()
