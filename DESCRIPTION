@@ -8,7 +8,7 @@ Authors@R: person(given = "Wouter",
                   email = "wouterzeevat@gmail.com")
 Maintainer: Wouter Zeevat <wouterzeevat@gmail.com>
 Description: A tool for simplifying the selection of appropriate statistical tests based on input data, making statistical workflows easier for users of all experience levels.
-License: GPL-3 + file LICENSE
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/wouterzeevat/automatedtests
