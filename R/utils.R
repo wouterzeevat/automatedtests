@@ -56,7 +56,7 @@ check_parametric <- function(data) {
 #' @importFrom stats pnorm cor.test mcnemar.test fisher.test aov oneway.test kruskal.test
 #' @importFrom stats friedman.test shapiro.test bartlett.test
 #' @importFrom nortest ad.test
-#' @importFrom RVAideMemoire cochran.qtest
+#' @importFrom DescTools CochranQTest
 #' @importFrom nnet multinom
 get_test_from_string <- function(test_object) {
   data <- test_object$getData()
@@ -176,8 +176,13 @@ get_test_from_string <- function(test_object) {
          },
 
          "Cochran's Q test" = {
-           tab <- table(data[[1]], data[[2]])
-           return(RVAideMemoire::cochran.qtest(tab))
+           wide_data <- reshape(data, timevar = names(data)[2], idvar = names(data)[1], direction = "wide")
+
+           # Drop the ID column
+           mat <- as.matrix(wide_data[ , -1])
+
+           # Perform Cochran's Q test using DescTools
+           return(DescTools::CochranQTest(mat))
          },
 
          "McNemar's test" = {
