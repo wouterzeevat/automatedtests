@@ -4,8 +4,8 @@
 
 - Initial release.
 
-# Version 0.1.1 (2025-05-6)
+# Version 0.1.1 (2025-05-19)
 
-- added dissapeared tests (Qualitative x quantitative tests for 2 groups)
-- Fixed a bug where
-- TO DO FIX PACKAGE/ use normal test instead of cochran
+- Added dissapeared tests (Qualitative x quantitative tests for 2 groups)
+- Fixed a bug where test did not run properly.
+- Changed package 'RVAideMemoire' -> 'DescTools' to match new versions

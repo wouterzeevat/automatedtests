@@ -2,8 +2,8 @@
 
 export(AutomatedTest)
 export(automatical_test)
-importFrom(R6,R6Class)
 importFrom(DescTools,CochranQTest)
+importFrom(R6,R6Class)
 importFrom(nnet,multinom)
 importFrom(nortest,ad.test)
 importFrom(stats,aov)
