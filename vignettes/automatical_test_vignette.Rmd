@@ -11,8 +11,7 @@ vignette: >
 
 # Introduction
 
-The `automatedtests` package automates the selection of the most appropriate statistical test based on the characteristics of your data. This vignette demonstrates how to use the main function `automatical_test()` to perform automated statistical testing.
-
+The `automatedtests` package automatically selects and runs the most appropriate statistical test for your data — no manual decision-making needed.
 The function works with both individual vectors or a data frame and provides the results in an easy-to-understand format, which includes the test used and all the relevant statistics.
 
 ### Supported Tests
@@ -85,7 +84,7 @@ You can override the default `compare_to` value to perform one-sample tests. For
 test3 <- automatical_test(iris$Sepal.Length, compare_to = 5)
 
 # View the result summary
-print(test3$getResult())
+print(test3$getResult()$p.value)
 ```
 
 In this case, `compare_to = 5` specifies that we are performing a one-sample test where we compare the `Sepal.Length` to the value 5.
