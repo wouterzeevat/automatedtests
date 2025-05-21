@@ -1,4 +1,5 @@
 # automatedtest
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/automatedtests)
 
 Automatically select and run the best statistical test for your data with just one line of code. Supporting one-sample-tests, two-sample-tests, multiple-sample-tests, and even correlations! [automatedtests](https://cran.r-project.org/web/packages/automatedtests/index.html)
 
