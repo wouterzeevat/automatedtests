@@ -281,10 +281,6 @@ get_test_from_string <- function(test_object) {
 #'   \item{non-existent}{No interpretable strength measure available}
 #' }
 #'
-#' @examples
-#' # Assuming test_object is set up:
-#' get_strength_from_test(test_object)
-#'
 #' @keywords internal
 get_strength_from_test <- function(test_object) {
   result <- test_object$getResult()
