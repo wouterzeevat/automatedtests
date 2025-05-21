@@ -257,3 +257,93 @@ get_test_from_string <- function(test_object) {
 
   stop("An invalid test was chosen.")
 }
+
+#' Extract the main coefficient or test statistic from a test result
+#'
+#' This function takes a `test_object` that contains the result of a statistical test
+#' and returns the main coefficient, estimate, or test statistic as a numeric value.
+#' It supports various tests such as t-tests, ANOVAs, regressions, and correlations.
+#'
+#' @param test_object An object containing a statistical test result and metadata,
+#'        expected to have methods `getResult()` and `getTest()`.
+#'
+#' @return A numeric value representing the main effect size, coefficient, or test statistic.
+#'         Returns `NA` if the test is unsupported or no numeric summary is available.
+#'
+#' @examples
+#' # Assuming test_object is set up:
+#' get_strength_from_test(test_object)
+#'
+#' @keyswords internal
+get_strength_from_test <- function(test_object) {
+  result <- test_object$getResult()
+
+  switch(test_object$getTest(),
+
+         # Regressions — return named vector of coefficients (excluding intercept)
+         "Multiple linear regression" = ,
+         "Binary logistic regression" = {
+           coefs <- coef(result)[-1]
+           names(coefs) <- names(coef(result))[-1]
+           return(as.numeric(coefs))
+         },
+
+         "Multinomial logistic regression" = {
+           coefs <- result$coefficients
+           names(coefs) <- paste0("Coef", seq_along(coefs))
+           return(as.numeric(coefs))
+         },
+
+         # Correlations — return the r value
+         "Pearson correlation" = ,
+         "Spearman's rank correlation" = {
+           return(setNames(as.numeric(result$estimate), names(result$estimate)))
+         },
+
+         # T-tests — return the estimated mean difference or group means
+         "One-sample Student's t-test" = ,
+         "Student's t-test for paired samples" = ,
+         "Student's t-test for independent samples" = ,
+         "Welch's t-test for independent samples" = {
+           est <- result$estimate
+           return(setNames(as.numeric(est), names(est)))
+         },
+
+         # Non-parametric — return main test statistic (one number)
+         "One-sample Wilcoxon test" = ,
+         "Wilcoxon signed-rank test" = ,
+         "Mann-Whitney U test" = ,
+         "Chi-square test of independence" = ,
+         "Chi-square goodness-of-fit test" = ,
+         "Cochran's Q test" = ,
+         "McNemar's test" = ,
+         "Fisher's exact test" = {
+           return(setNames(as.numeric(result$statistic[[1]]), names(result$statistic)[1]))
+         },
+
+         # ANOVA-style — extract F statistic
+         "One-way ANOVA" = ,
+         "Welch's ANOVA" = ,
+         "Repeated measures ANOVA" = ,
+         "Kruskal-Wallis test" = ,
+         "Friedman test" = {
+           if (inherits(result, "aov")) {
+             f_val <- summary(result)[[1]]$`F value`[1]
+             return(setNames(as.numeric(f_val), "F value"))
+           } else {
+             return(setNames(as.numeric(result$statistic[[1]]), names(result$statistic)[1]))
+           }
+         },
+
+         # Proportion test — return estimated proportion
+         "One-proportion test" = {
+           return(setNames(as.numeric(result$estimate[[1]]), names(result$estimate)[1]))
+         },
+
+         {
+           return(setNames(NA, "unknown"))
+         }
+  )
+}
+
+
