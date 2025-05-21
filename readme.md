@@ -46,11 +46,10 @@ The package supports a tidy data frames and a set of numeric/categorical vectors
 You can install the package from GitHub:
 
 ```r
-# Install devtools if not already installed
-install.packages("devtools")
+install.packages("automatedtests")
 
-# Install automaticalTest from GitHub
-devtools::install_github("wouterzeevat/automatedtests")
+# Load library
+library(automatedtests)
 ```
 
 ## Usage

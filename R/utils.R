@@ -213,19 +213,19 @@ get_test_from_string <- function(test_object) {
          },
 
          "Student's t-test for paired samples" = {
-           return(t.test(
-             data[data[[qual_index]] == unique(data[[qual_index]])[1], quan_index],
-             data[data[[qual_index]] == unique(data[[qual_index]])[2], quan_index],
-             paired = TRUE
-           ))
+           if ("Qualitative" %in% test_object$getDatatypes()) {
+             data[1] <- data[data[[qual_index]] == unique(data[[qual_index]])[1], quan_index]
+             data[2] <- data[data[[qual_index]] == unique(data[[qual_index]])[2], quan_index]
+           }
+           return(t.test(data[[1]], data[[2]], paired = TRUE))
          },
 
          "Wilcoxon signed-rank test" = {
-           return(wilcox.test(
-             data[data[[qual_index]] == unique(data[[qual_index]])[1], quan_index],
-             data[data[[qual_index]] == unique(data[[qual_index]])[2], quan_index],
-             paired = TRUE
-           ))
+           if ("Qualitative" %in% test_object$getDatatypes()) {
+             data[1] <- data[data[[qual_index]] == unique(data[[qual_index]])[1], quan_index]
+             data[2] <- data[data[[qual_index]] == unique(data[[qual_index]])[2], quan_index]
+           }
+           return(wilcox.test(data[[1]], data[[2]], paired = TRUE))
          },
 
          "One-way ANOVA" = {

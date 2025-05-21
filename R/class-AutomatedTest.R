@@ -61,6 +61,8 @@ AutomatedTest <- R6::R6Class(
       if (private$.paired) {
         return(TRUE)
       }
+
+      # If any id exists twice the identifiers have to be used
       if (length(private$.identifiers) > 1) {
         return(any(duplicated(private$.identifiers)))
       }

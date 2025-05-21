@@ -45,6 +45,28 @@
   If you want to override the defaults, you can change the \code{compare_to} value to specify one-sample tests.
 
   Once the test has been executed, you can use the method \code{$getResult()} on the resulting object to get more detailed information about the test's execution, including a summary of the test used and all statistics.
+
+  Supported tests:
+  \tabular{rl}{
+  \strong{ID} \tab \strong{Test} \cr
+  1  \tab One-proportion test \cr
+  2  \tab Chi-square goodness-of-fit test \cr
+  3  \tab One-sample Student's t-test \cr
+  4  \tab One-sample Wilcoxon test \cr
+  5  \tab Multiple linear regression \cr
+  6  \tab Binary logistic regression \cr
+  7  \tab Multinomial logistic regression \cr
+  8  \tab Pearson correlation \cr
+  9  \tab Spearman's rank correlation \cr
+  10 \tab Cochran's Q test \cr
+  11 \tab McNemar's test \cr
+  12 \tab Fisher's exact test \cr
+  13 \tab Chi-square test of independence \cr
+  14 \tab Student's t-test for independent samples \cr
+  15 \tab Welch's t-test for independent samples \cr
+  16 \tab Mann-Whitney U test \cr
+  17 \tab Student's \cr
+  }
 }
 \examples{
   # Example 1: Using individual vectors

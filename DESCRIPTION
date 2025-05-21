@@ -7,7 +7,7 @@ Authors@R: person(given = "Wouter",
                   role = c("aut", "cre"),
                   email = "wouterzeevat@gmail.com")
 Maintainer: Wouter Zeevat <wouterzeevat@gmail.com>
-Description: A tool for simplifying the selection of appropriate statistical tests based on input data, making statistical workflows easier for users of all experience levels.
+Description: Automatically selects and runs the most appropriate statistical test for your data, returning clear, easy-to-read results. Ideal for all experience levels.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -25,4 +25,4 @@ Imports:
     stats,
     DescTools
 Depends:
-    R (>= 4.0.4)
+    R (>= 4.0)
