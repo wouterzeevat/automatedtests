@@ -258,7 +258,9 @@ get_test_from_string <- function(test_object) {
   stop("An invalid test was chosen.")
 }
 
-#' Extract the main coefficient or test statistic from a test result
+#' Returns the strength of a test.
+#' This is a different kind of value for each test. It will also return what the value is.
+#' These are the different types of data it can return:
 #'
 #' This function takes a `test_object` that contains the result of a statistical test
 #' and returns the main coefficient, estimate, or test statistic as a numeric value.
@@ -267,58 +269,64 @@ get_test_from_string <- function(test_object) {
 #' @param test_object An object containing a statistical test result and metadata,
 #'        expected to have methods `getResult()` and `getTest()`.
 #'
-#' @return A numeric value representing the main effect size, coefficient, or test statistic.
-#'         Returns `NA` if the test is unsupported or no numeric summary is available.
+#' @return A named numeric value indicating the strength of the result.
+#' The type and meaning depend on the test used:
+#' \describe{
+#'   \item{coefficient}{Effect size and direction of predictors in regression}
+#'   \item{r}{Correlation strength and direction}
+#'   \item{mean difference}{Difference in group means}
+#'   \item{statistic}{Test statistic measuring group difference or association}
+#'   \item{F statistic}{Ratio of variances across groups}
+#'   \item{proportion}{Estimated success rate in the sample}
+#'   \item{non-existent}{No interpretable strength measure available}
+#' }
 #'
 #' @examples
 #' # Assuming test_object is set up:
 #' get_strength_from_test(test_object)
 #'
-#' @keyswords internal
+#' @keywords internal
 get_strength_from_test <- function(test_object) {
   result <- test_object$getResult()
 
   switch(test_object$getTest(),
 
-         # Regressions — return named vector of coefficients (excluding intercept)
+         # Regressions — keep full coefficient vector with original names
          "Multiple linear regression" = ,
          "Binary logistic regression" = {
            coefs <- coef(result)[-1]
-           names(coefs) <- names(coef(result))[-1]
-           return(as.numeric(coefs))
+           return(list(coefficient = coefs))
          },
 
          "Multinomial logistic regression" = {
            coefs <- result$coefficients
-           names(coefs) <- paste0("Coef", seq_along(coefs))
-           return(as.numeric(coefs))
+           return(list(coefficient = coefs))
          },
 
-         # Correlations — return the r value
+         # Correlations — return r with fixed name
          "Pearson correlation" = ,
          "Spearman's rank correlation" = {
-           return(setNames(as.numeric(result$estimate), names(result$estimate)))
+           return(setNames(as.numeric(result$estimate), "r"))
          },
 
-         # T-tests — return the estimated mean difference or group means
+         # T-tests — return estimated mean diff or means
          "One-sample Student's t-test" = ,
          "Student's t-test for paired samples" = ,
          "Student's t-test for independent samples" = ,
          "Welch's t-test for independent samples" = {
            est <- result$estimate
-           return(setNames(as.numeric(est), names(est)))
+           return(setNames(as.numeric(est), "mean difference"))
          },
 
-         # Non-parametric — return main test statistic (one number)
+         # Non-parametric — return main test statistic
          "One-sample Wilcoxon test" = ,
          "Wilcoxon signed-rank test" = ,
          "Mann-Whitney U test" = ,
          "Chi-square test of independence" = ,
          "Chi-square goodness-of-fit test" = ,
          "Cochran's Q test" = ,
-         "McNemar's test" = ,
-         "Fisher's exact test" = {
-           return(setNames(as.numeric(result$statistic[[1]]), names(result$statistic)[1]))
+         "McNemar's test" = {
+           return(setNames(as.numeric(result$statistic[[1]]), "statistic"))
          },
 
          # ANOVA-style — extract F statistic
@@ -329,19 +337,20 @@ get_strength_from_test <- function(test_object) {
          "Friedman test" = {
            if (inherits(result, "aov")) {
              f_val <- summary(result)[[1]]$`F value`[1]
-             return(setNames(as.numeric(f_val), "F value"))
+             return(setNames(as.numeric(f_val), "F statistic"))
            } else {
-             return(setNames(as.numeric(result$statistic[[1]]), names(result$statistic)[1]))
+             return(setNames(as.numeric(result$statistic[[1]]), "F statistic"))
            }
          },
 
-         # Proportion test — return estimated proportion
+         # Proportion test — fixed label
          "One-proportion test" = {
-           return(setNames(as.numeric(result$estimate[[1]]), names(result$estimate)[1]))
+           return(setNames(as.numeric(result$estimate[[1]]), "proportion"))
          },
 
+         # Unknown or unsupported test
          {
-           return(setNames(NA, "unknown"))
+           return(setNames(NA, "non-existent"))
          }
   )
 }

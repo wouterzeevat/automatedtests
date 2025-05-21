@@ -20,6 +20,7 @@ The AutomatedTest class represents a result of a statistical test. It contains a
 \item \href{#method-AutomatedTest-isParametric}{\code{AutomatedTest$isParametric()}}
 \item \href{#method-AutomatedTest-getTest}{\code{AutomatedTest$getTest()}}
 \item \href{#method-AutomatedTest-getResult}{\code{AutomatedTest$getResult()}}
+\item \href{#method-AutomatedTest-getStrength}{\code{AutomatedTest$getStrength()}}
 \item \href{#method-AutomatedTest-isSignificant}{\code{AutomatedTest$isSignificant()}}
 \item \href{#method-AutomatedTest-print}{\code{AutomatedTest$print()}}
 \item \href{#method-AutomatedTest-clone}{\code{AutomatedTest$clone()}}
@@ -185,6 +186,29 @@ Get the result of selected statistical test
 
 \subsection{Returns}{
 The result of the statistical test
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-AutomatedTest-getStrength"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-getStrength}{}}}
+\subsection{Method \code{getStrength()}}{
+Get the strength(s) of selected statistical test.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getStrength()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A named numeric value indicating the strength of the result.
+The type and meaning depend on the test used:
+\describe{
+  \item{coefficient}{Effect size and direction of predictors in regression}
+  \item{r}{Correlation strength and direction}
+  \item{mean difference}{Difference in group means}
+  \item{statistic}{Test statistic measuring group difference or association}
+  \item{F statistic}{Ratio of variances across groups}
+  \item{proportion}{Estimated success rate in the sample}
+  \item{non-existent}{No interpretable strength measure available}
+}
 }
 }
 \if{html}{\out{<hr>}}

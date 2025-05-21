@@ -138,8 +138,19 @@ AutomatedTest <- R6::R6Class(
       return(private$.result)
     },
 
-    #' @description Get the strength(s) of selected statistical test
-    #' @return The strength of the statistical test
+    #' @description Get the strength(s) of selected statistical test.
+    #' @return A named numeric value indicating the strength of the result.
+    #' The type and meaning depend on the test used:
+    #' \describe{
+    #'   \item{coefficient}{Effect size and direction of predictors in regression}
+    #'   \item{r}{Correlation strength and direction}
+    #'   \item{mean difference}{Difference in group means}
+    #'   \item{statistic}{Test statistic measuring group difference or association}
+    #'   \item{F statistic}{Ratio of variances across groups}
+    #'   \item{proportion}{Estimated success rate in the sample}
+    #'   \item{non-existent}{No interpretable strength measure available}
+    #' }
+    #'
     getStrength = function() {
       return(get_strength_from_test(self))
     },
@@ -166,7 +177,7 @@ AutomatedTest <- R6::R6Class(
 
       # Table output for multiple p-values to get better readability
       p_vals     <- self$getResult()$p.value
-      strengths  <- self$getStrength()
+      strengths  <- self$getStrength()[[1]]
       sig_flags  <- self$isSignificant()
 
       if (length(p_vals) > 1) {
@@ -176,13 +187,13 @@ AutomatedTest <- R6::R6Class(
         })
 
         # CHATGPT ----------
-        cat(sprintf("  %-25s %-12s %-12s %s\n", "Name", "p.value", "Strength", "Significant"))
+        cat(sprintf("  %-25s %-12s %-25s %s\n", "Name", "p.value", paste("Strength (", names(self$getStrength()), ")"), "Significant"))
         for (i in seq_along(p_vals)) {
           name <- names(p_vals)[i]
           if (is.null(name) || name == "") name <- paste0("Var", i)
 
           cat(sprintf(
-            "  %-25s %-12.4g %-12.4g %s\n",
+            "  %-25s %-12.4g %-25.4g %s\n",
             name,
             p_vals[i],
             strengths[i],
@@ -193,7 +204,7 @@ AutomatedTest <- R6::R6Class(
 
       } else {
         cat("  p.value: ", p_vals, "\n")
-        cat("  Strength: ", names(strengths), "=", round(strengths, 3), "\n")
+        cat("  Strength: ", names(self$getStrength())[[1]], "=", round(strengths, 3), "\n")
         sig_colored <- if (isTRUE(sig_flags)) "\033[32mTRUE\033[0m" else "\033[31mFALSE\033[0m"
         cat("  Significant: ", sig_colored, "\n")
       }
