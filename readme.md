@@ -1,6 +1,7 @@
 # automatedtest <a href="[https://ggplot2.tidyverse.org](https://cran.r-project.org/web/packages/automatedtests/vignettes/automatical_test_vignette.html)"><img src="man/figures/logo.png" align="right" height="120" alt="automatical test function" /></a>
 
 [![Cran Version](https://www.r-pkg.org/badges/version/automatedtests)](https://cran.r-project.org/web/packages/automatedtests/index.html)
+[![R-CMD-check](https://github.com/wouterzeevat/automatedtests/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/wouterzeevat/automatedtests/actions/workflows/R-CMD-check.yaml)
 [![CRAN Downloads](https://cranlogs.r-pkg.org/badges/automatedtests)](https://cran.r-project.org/package=automatedtests)
 
 Automatically select and run the best statistical test for your data with just one line of code. Supporting one-sample-tests, two-sample-tests, multiple-sample-tests, and even correlations! [automatedtests](https://cran.r-project.org/web/packages/automatedtests/index.html)
