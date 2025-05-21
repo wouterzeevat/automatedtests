@@ -30,9 +30,4 @@ This function takes a `test_object` that contains the result of a statistical te
 and returns the main coefficient, estimate, or test statistic as a numeric value.
 It supports various tests such as t-tests, ANOVAs, regressions, and correlations.
 }
-\examples{
-# Assuming test_object is set up:
-get_strength_from_test(test_object)
-
-}
 \keyword{internal}
