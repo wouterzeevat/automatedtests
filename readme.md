@@ -46,6 +46,9 @@ The package supports tidy data frames and a set of numeric/categorical vectors! 
 | 22 | Kruskal-Wallis test
 | 23 | Friedman test
 
+### Methods to choose stastitical test
+![Workflow](https://statsandr.com/blog/files/overview-statistical-tests-statsandr.pdf)
+- By Antoine Soetewey
 ## Installation
 
 You can install the package from CRAN:
@@ -101,11 +104,11 @@ automatical_test(c(3, 5, 4, 6, 7), compare_to = 5)
 Returns an object of class `AutomatedTest` with methods and properties like:
 
 - `print(object)` - overview of executed test and its results.
-- `$getResult()` — detailed summary of the test performed, containing all information including p.value, statistics etc.
-- `$getTest()` — test type selected
-- `$isParametric()` — Whether the numeric feature were parametric
+- `$getResult()` - detailed summary of the test performed, containing all information including p.value, statistics etc.
+- `$getTest()` - test type selected
+- `$isParametric()` - Whether the numeric feature were parametric
 - `$isPaired()` - Returns if a paired test was used.
-- `$getStrength` - Shows the strength of the test/correlation. This is a different kind of value for each test. It will also return what the value is. These are the different types of data it can return:
+- `$getStrength()` - Shows the strength of the test/correlation. This is a different kind of value for each test. It will also return what the value is. These are the different types of data it can return:
 ```
 coefficient     – strength and direction of predictor effects  
 r               – strength and direction of correlation  
@@ -118,7 +121,7 @@ non-existent    – no interpretable strength measure available
 
 - `$getParametricList()` - Returns a list of all numeric features' distributions and the parametric tests used.
 - `$getDatatypes()` - Shows what type of data the features used in the corresponding test contain.
-- `$isSignificant()` — TRUE/FALSE if result is statistically significant (p.value < 0.05), to show the result in the blink of an eye!
+- `$isSignificant()` - TRUE/FALSE if result is statistically significant (p.value < 0.05), to show the result in the blink of an eye!
 
 ## Example Output
 

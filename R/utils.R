@@ -287,7 +287,7 @@ get_strength_from_test <- function(test_object) {
 
   switch(test_object$getTest(),
 
-         # Regressions — keep full coefficient vector with original names
+         # Regressions - keep full coefficient vector with original names
          "Multiple linear regression" = ,
          "Binary logistic regression" = {
            coefs <- coef(result)[-1]
@@ -299,13 +299,13 @@ get_strength_from_test <- function(test_object) {
            return(list(coefficient = coefs))
          },
 
-         # Correlations — return r with fixed name
+         # Correlations - return r with fixed name
          "Pearson correlation" = ,
          "Spearman's rank correlation" = {
            return(setNames(as.numeric(result$estimate), "r"))
          },
 
-         # T-tests — return estimated mean diff or means
+         # T-tests - return estimated mean diff or means
          "One-sample Student's t-test" = ,
          "Student's t-test for paired samples" = ,
          "Student's t-test for independent samples" = ,
@@ -314,7 +314,7 @@ get_strength_from_test <- function(test_object) {
            return(setNames(as.numeric(est), "mean difference"))
          },
 
-         # Non-parametric — return main test statistic
+         # Non-parametric - return main test statistic
          "One-sample Wilcoxon test" = ,
          "Wilcoxon signed-rank test" = ,
          "Mann-Whitney U test" = ,
@@ -325,7 +325,7 @@ get_strength_from_test <- function(test_object) {
            return(setNames(as.numeric(result$statistic[[1]]), "statistic"))
          },
 
-         # ANOVA-style — extract F statistic
+         # ANOVA-style - extract F statistic
          "One-way ANOVA" = ,
          "Welch's ANOVA" = ,
          "Repeated measures ANOVA" = ,
@@ -339,7 +339,7 @@ get_strength_from_test <- function(test_object) {
            }
          },
 
-         # Proportion test — fixed label
+         # Proportion test - fixed label
          "One-proportion test" = {
            return(setNames(as.numeric(result$estimate[[1]]), "proportion"))
          },

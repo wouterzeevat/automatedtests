@@ -11,7 +11,7 @@ vignette: >
 
 # Introduction
 
-The `automatedtests` package automatically selects and runs the most appropriate statistical test for your data — no manual decision-making needed.
+The `automatedtests` package automatically selects and runs the most appropriate statistical test for your data, no manual decision-making needed.
 The function works with both individual vectors or a data frame and provides the results in an easy-to-understand format, which includes the test used and all the relevant statistics.
 
 ### Supported Tests
