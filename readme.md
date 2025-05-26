@@ -46,6 +46,9 @@ The package supports tidy data frames and a set of numeric/categorical vectors! 
 | 22 | Kruskal-Wallis test
 | 23 | Friedman test
 
+### Methods to choose stastitical test
+![Workflow](https://statsandr.com/blog/files/overview-statistical-tests-statsandr.pdf)
+- By Antoine Soetewey
 ## Installation
 
 You can install the package from CRAN:
