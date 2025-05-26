@@ -47,7 +47,7 @@ The package supports tidy data frames and a set of numeric/categorical vectors! 
 | 23 | Friedman test
 
 ### Methods to choose stastitical test
-![Workflow](https://statsandr.com/blog/files/overview-statistical-tests-statsandr.pdf)
+![Workflow](man/figures/overview-statistical-tests-statsandr.jpg)(https://statsandr.com/blog/files/overview-statistical-tests-statsandr.pdf)
 - By Antoine Soetewey
 ## Installation
 
