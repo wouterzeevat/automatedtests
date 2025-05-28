@@ -106,24 +106,39 @@ AutomatedTest <- R6::R6Class(
     #' @description Get the parametric test results of the features
     #' @return A list of parametric test results
     getParametricList = function() {
-      parametric_list <- list()
+
+      parametric_list <- data.frame(
+        Feature = character(),
+        result = logical(),
+        p_value = numeric(),
+        test = logical(),
+        statistic = numeric(),
+        stringsAsFactors = FALSE
+      )
+
       for (name in colnames(self$getData())) {
-        feature <- self$getData()[[name]]
-        parametric_list[[length(parametric_list) + 1]] <- check_parametric(feature)
+        feature = self$getData()[[name]]
+        result = check_parametric(feature)
+
+        df = data.frame(
+          Feature = name,
+          result = result$result,
+          p_value = result$p_value,
+          test = result$test,
+          statistic = result$statistic,
+          stringsAsFactors = FALSE
+        )
+
+        parametric_list = rbind(parametric_list, df)
       }
+      rownames(parametric_list) <- NULL
       return(parametric_list)
     },
 
     #' @description Check if the data meets parametric assumptions
     #' @return TRUE if parametric assumptions are met, otherwise FALSE
     isParametric = function() {
-      result <- sapply(self$getParametricList(), function(x) {
-        if (is.null(x)) {
-          return(NULL)  # Skip this iteration if x is NULL
-        }
-        return(x$result == TRUE)
-      })
-      return(all(result))
+      return(all(self$getParametricList()$result))
     },
 
     #' @description Get the statistical test that was chosen
