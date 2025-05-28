@@ -120,6 +120,11 @@ AutomatedTest <- R6::R6Class(
         feature = self$getData()[[name]]
         result = check_parametric(feature)
 
+        # Ignore qualitative
+        if (is.null(result)) {
+          next
+        }
+
         df = data.frame(
           Feature = name,
           result = result$result,
