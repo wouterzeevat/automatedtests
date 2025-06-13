@@ -185,6 +185,9 @@ AutomatedTest <- R6::R6Class(
 
     #' @description Print a summary of the test object
     print = function() {
+
+      result <- self$get_result()
+
       cat("Automated Test:\n")
       cat("Data: ", paste0(colnames(self$get_data()), collapse = ", "), "\n")
 
@@ -198,7 +201,7 @@ AutomatedTest <- R6::R6Class(
       cat("Results: \n")
 
       # Table output for multiple p-values to get better readability
-      p_vals     <- self$get_result()$p.value
+      p_vals     <- result$p.value
       strengths  <- self$get_strength()[[1]]
       sig_flags  <- self$is_significant()
 

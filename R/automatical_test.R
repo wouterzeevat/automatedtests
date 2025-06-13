@@ -48,7 +48,24 @@ automatical_test <- function(..., compare_to = NULL, identifiers = FALSE, paired
 
   # Create and return the AutomatedTest object
   if (is.null(compare_to)) {
-    return(AutomatedTest$new(data, ids, paired=paired))
+    test <- AutomatedTest$new(data, ids, paired=paired)
   }
-  return(AutomatedTest$new(data, ids, compare_to, paired=paired))
+  test <- AutomatedTest$new(data, ids, compare_to, paired=paired)
+
+  # Gives a warning because the parametric check could be too sensitive. Manual inspection is recommended!
+  if (!test$is_parametric()) {
+    warning("Normality test suggests the data may not be normally distributed.
+    It is recommended to visually inspect the data using a Q-Q plot.
+    If the data is in fact parametric but contains outliers,
+    consider manually applying normalization or transformation before proceeding", immediate.=TRUE)
+  }
+
+
+  # Warning for correlations, only supports linear relationships right now!
+  if (grepl("correlation", test$get_test())) {
+    warning("AutomatedTest correlation currently detects only linear relationships.
+  Please check the data pattern using plot() to ensure the test is appropriate.")
+  }
+
+  return(test)
 }
