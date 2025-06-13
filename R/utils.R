@@ -59,26 +59,26 @@ check_parametric <- function(data) {
 #' @importFrom DescTools CochranQTest
 #' @importFrom nnet multinom
 get_test_from_string <- function(test_object) {
-  data <- test_object$getData()
-  identifiers <- test_object$getIdentifiers()
-  compare_to <- test_object$getCompareTo()
+  data <- test_object$get_data()
+  identifiers <- test_object$get_identifiers()
+  compare_to <- test_object$get_compare_to()
   df <- NULL
 
   # Format data to fit in tests
-  if (length(test_object$getDatatypes()) == 2 && length(unique(test_object$getDatatypes())) > 1) {
-    qual_index <- which(test_object$getDatatypes() == "Qualitative")
-    quan_index <- which(test_object$getDatatypes() == "Quantitative")
+  if (length(test_object$get_datatypes()) == 2 && length(unique(test_object$get_datatypes())) > 1) {
+    qual_index <- which(test_object$get_datatypes() == "Qualitative")
+    quan_index <- which(test_object$get_datatypes() == "Quantitative")
 
     # For paired test process identifiers
-    if (test_object$isPaired()) {
+    if (test_object$is_paired()) {
       df <- data.frame(
-        id = test_object$getIdentifiers(),
+        id = test_object$get_identifiers(),
         condition = as.factor(data[[qual_index]]),
         value = data[[quan_index]]
       )
     }
   }
-  switch(test_object$getTest(),
+  switch(test_object$get_test(),
 
          "One-proportion test" = {
 
@@ -213,7 +213,7 @@ get_test_from_string <- function(test_object) {
          },
 
          "Student's t-test for paired samples" = {
-           if ("Qualitative" %in% test_object$getDatatypes()) {
+           if ("Qualitative" %in% test_object$get_datatypes()) {
              data[1] <- data[data[[qual_index]] == unique(data[[qual_index]])[1], quan_index]
              data[2] <- data[data[[qual_index]] == unique(data[[qual_index]])[2], quan_index]
            }
@@ -221,7 +221,7 @@ get_test_from_string <- function(test_object) {
          },
 
          "Wilcoxon signed-rank test" = {
-           if ("Qualitative" %in% test_object$getDatatypes()) {
+           if ("Qualitative" %in% test_object$get_datatypes()) {
              data[1] <- data[data[[qual_index]] == unique(data[[qual_index]])[1], quan_index]
              data[2] <- data[data[[qual_index]] == unique(data[[qual_index]])[2], quan_index]
            }
@@ -267,7 +267,7 @@ get_test_from_string <- function(test_object) {
 #' It supports various tests such as t-tests, ANOVAs, regressions, and correlations.
 #'
 #' @param test_object An object containing a statistical test result and metadata,
-#'        expected to have methods `getResult()` and `getTest()`.
+#'        expected to have methods `get_result()` and `get_test()`.
 #'
 #' @return A named numeric value indicating the strength of the result.
 #' The type and meaning depend on the test used:
@@ -283,11 +283,11 @@ get_test_from_string <- function(test_object) {
 #'
 #' @keywords internal
 get_strength_from_test <- function(test_object) {
-  result <- test_object$getResult()
+  result <- test_object$get_result()
 
-  switch(test_object$getTest(),
+  switch(test_object$get_test(),
 
-         # Regressions - keep full coefficient vector with original names
+         # Regressions — keep full coefficient vector with original names
          "Multiple linear regression" = ,
          "Binary logistic regression" = {
            coefs <- coef(result)[-1]
@@ -299,13 +299,13 @@ get_strength_from_test <- function(test_object) {
            return(list(coefficient = coefs))
          },
 
-         # Correlations - return r with fixed name
+         # Correlations — return r with fixed name
          "Pearson correlation" = ,
          "Spearman's rank correlation" = {
            return(setNames(as.numeric(result$estimate), "r"))
          },
 
-         # T-tests - return estimated mean diff or means
+         # T-tests — return estimated mean diff or means
          "One-sample Student's t-test" = ,
          "Student's t-test for paired samples" = ,
          "Student's t-test for independent samples" = ,
@@ -314,7 +314,7 @@ get_strength_from_test <- function(test_object) {
            return(setNames(as.numeric(est), "mean difference"))
          },
 
-         # Non-parametric - return main test statistic
+         # Non-parametric — return main test statistic
          "One-sample Wilcoxon test" = ,
          "Wilcoxon signed-rank test" = ,
          "Mann-Whitney U test" = ,
@@ -325,7 +325,7 @@ get_strength_from_test <- function(test_object) {
            return(setNames(as.numeric(result$statistic[[1]]), "statistic"))
          },
 
-         # ANOVA-style - extract F statistic
+         # ANOVA-style — extract F statistic
          "One-way ANOVA" = ,
          "Welch's ANOVA" = ,
          "Repeated measures ANOVA" = ,
@@ -339,7 +339,7 @@ get_strength_from_test <- function(test_object) {
            }
          },
 
-         # Proportion test - fixed label
+         # Proportion test — fixed label
          "One-proportion test" = {
            return(setNames(as.numeric(result$estimate[[1]]), "proportion"))
          },

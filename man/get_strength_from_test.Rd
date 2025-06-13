@@ -10,7 +10,7 @@ get_strength_from_test(test_object)
 }
 \arguments{
 \item{test_object}{An object containing a statistical test result and metadata,
-expected to have methods `getResult()` and `getTest()`.}
+expected to have methods `get_result()` and `get_test()`.}
 }
 \value{
 A named numeric value indicating the strength of the result.

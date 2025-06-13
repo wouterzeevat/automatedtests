@@ -5,7 +5,7 @@
 #' @return TRUE if data is normalized, FALSE otherwise.
 #' @keywords internal
 pick_test <- function(test_object) {
-  size <- ncol(test_object$getData())
+  size <- ncol(test_object$get_data())
 
   if (size == 1) {
     return(pick_one_variable_test(test_object))
@@ -23,20 +23,20 @@ pick_test <- function(test_object) {
 #' @return A character string with the name of the appropriate one-sample statistical test.
 #' @keywords internal
 pick_one_variable_test <- function(test_object) {
-  stopifnot(!is.null(test_object$getCompareTo()) || !is.numeric(test_object$getCompareTo()))
+  stopifnot(!is.null(test_object$get_compare_to()) || !is.numeric(test_object$get_compare_to()))
 
   # Qualitative
-  if (test_object$getDatatypes()[1] == "Qualitative") {
-    group_size <- length(unique(test_object$getData()[[1]]))
+  if (test_object$get_datatypes()[1] == "Qualitative") {
+    group_size <- length(unique(test_object$get_data()[[1]]))
     stopifnot(group_size > 1)
-    if (length(unique(test_object$getData()[[1]])) < 3) {
+    if (length(unique(test_object$get_data()[[1]])) < 3) {
       return("One-proportion test")
     }
     return("Chi-square goodness-of-fit test")
   }
 
   # Quantitative
-  if (test_object$isParametric()) {
+  if (test_object$is_parametric()) {
     return("One-sample Student's t-test")
   }
 
@@ -49,15 +49,15 @@ pick_one_variable_test <- function(test_object) {
 #' @return A character string with the name of the appropriate statistical test.
 #' @keywords internal
 pick_two_variable_test <- function(test_object) {
-  types <- test_object$getDatatypes()
-  data <- test_object$getData()
+  types <- test_object$get_datatypes()
+  data <- test_object$get_data()
 
   # Quantitative & Quantitative
   if (types[1] == "Quantitative" && types[2] == "Quantitative") {
 
     # Paired test
-    if (test_object$isPaired()) {
-      if (test_object$isParametric()) {
+    if (test_object$is_paired()) {
+      if (test_object$is_parametric()) {
         return("Student's t-test for paired samples")
       } else {
         return("Wilcoxon signed-rank test")
@@ -65,7 +65,7 @@ pick_two_variable_test <- function(test_object) {
     }
 
     # Correlation
-    if (test_object$isParametric()) {
+    if (test_object$is_parametric()) {
       return("Pearson correlation")
     }
     return("Spearman's rank correlation")
@@ -79,7 +79,7 @@ pick_two_variable_test <- function(test_object) {
     #  return("Chi-square test of independence")
     #}
 
-    if (test_object$isPaired()) {
+    if (test_object$is_paired()) {
       if (length(unique(data[1])) > 2 || length(unique(data[2])) > 2) {
         return("Cochran's Q test")
       }
@@ -101,13 +101,13 @@ pick_two_variable_test <- function(test_object) {
 
   # Qualitative & Quantitative
   if (length(unique(data[[qual_index]])) > 2) {
-    if (test_object$isPaired()) {
-      if (test_object$isParametric()) {
+    if (test_object$is_paired()) {
+      if (test_object$is_parametric()) {
         return("Repeated measures ANOVA")
       }
       return("Friedman test")
     }
-    if (test_object$isParametric()) {
+    if (test_object$is_parametric()) {
 
       # Equal variance test
       if (bartlett.test(data[[quan_index]], data[[qual_index]])$p.value > 0.05) {
@@ -119,15 +119,15 @@ pick_two_variable_test <- function(test_object) {
   }
 
   # Qualtitative Group size == 2
-  if (test_object$isPaired()) {
-    if (test_object$isParametric()) {
+  if (test_object$is_paired()) {
+    if (test_object$is_parametric()) {
       return("Student's t-test for paired samples")
     }
     return("Wilcoxon signed-rank test")
   }
 
   # Qualitative Group size > 2
-  if (test_object$isParametric()) {
+  if (test_object$is_parametric()) {
 
     # Equal variance test
     if (bartlett.test(data[[quan_index]], data[[qual_index]])$p.value > 0.05) {
@@ -145,8 +145,8 @@ pick_two_variable_test <- function(test_object) {
 #' @return A character string with the name of the appropriate regression or classification model.
 #' @keywords internal
 pick_multiple_variable_test <- function(test_object) {
-  types <- test_object$getDatatypes()
-  data <- test_object$getData()
+  types <- test_object$get_datatypes()
+  data <- test_object$get_data()
 
   # If binary / 2 groups
   if (length(unique(data[[1]])) == 2 && all(unique(data[[1]]) %in% c(0, 1, TRUE, FALSE)) ||

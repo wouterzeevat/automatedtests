@@ -10,18 +10,18 @@ The AutomatedTest class represents a result of a statistical test. It contains a
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-AutomatedTest-new}{\code{AutomatedTest$new()}}
-\item \href{#method-AutomatedTest-getData}{\code{AutomatedTest$getData()}}
-\item \href{#method-AutomatedTest-isPaired}{\code{AutomatedTest$isPaired()}}
-\item \href{#method-AutomatedTest-getIdentifiers}{\code{AutomatedTest$getIdentifiers()}}
-\item \href{#method-AutomatedTest-getCompareTo}{\code{AutomatedTest$getCompareTo()}}
-\item \href{#method-AutomatedTest-setCompareTo}{\code{AutomatedTest$setCompareTo()}}
-\item \href{#method-AutomatedTest-getDatatypes}{\code{AutomatedTest$getDatatypes()}}
-\item \href{#method-AutomatedTest-getParametricList}{\code{AutomatedTest$getParametricList()}}
-\item \href{#method-AutomatedTest-isParametric}{\code{AutomatedTest$isParametric()}}
-\item \href{#method-AutomatedTest-getTest}{\code{AutomatedTest$getTest()}}
-\item \href{#method-AutomatedTest-getResult}{\code{AutomatedTest$getResult()}}
-\item \href{#method-AutomatedTest-getStrength}{\code{AutomatedTest$getStrength()}}
-\item \href{#method-AutomatedTest-isSignificant}{\code{AutomatedTest$isSignificant()}}
+\item \href{#method-AutomatedTest-get_data}{\code{AutomatedTest$get_data()}}
+\item \href{#method-AutomatedTest-is_paired}{\code{AutomatedTest$is_paired()}}
+\item \href{#method-AutomatedTest-get_identifiers}{\code{AutomatedTest$get_identifiers()}}
+\item \href{#method-AutomatedTest-get_compare_to}{\code{AutomatedTest$get_compare_to()}}
+\item \href{#method-AutomatedTest-set_compare_co}{\code{AutomatedTest$set_compare_co()}}
+\item \href{#method-AutomatedTest-get_datatypes}{\code{AutomatedTest$get_datatypes()}}
+\item \href{#method-AutomatedTest-get_parametric_list}{\code{AutomatedTest$get_parametric_list()}}
+\item \href{#method-AutomatedTest-is_parametric}{\code{AutomatedTest$is_parametric()}}
+\item \href{#method-AutomatedTest-get_test}{\code{AutomatedTest$get_test()}}
+\item \href{#method-AutomatedTest-get_result}{\code{AutomatedTest$get_result()}}
+\item \href{#method-AutomatedTest-get_strength}{\code{AutomatedTest$get_strength()}}
+\item \href{#method-AutomatedTest-is_significant}{\code{AutomatedTest$is_significant()}}
 \item \href{#method-AutomatedTest-print}{\code{AutomatedTest$print()}}
 \item \href{#method-AutomatedTest-clone}{\code{AutomatedTest$clone()}}
 }
@@ -50,12 +50,12 @@ Initialize an instance of the AutomatedTest class
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-getData"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-getData}{}}}
-\subsection{Method \code{getData()}}{
+\if{html}{\out{<a id="method-AutomatedTest-get_data"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-get_data}{}}}
+\subsection{Method \code{get_data()}}{
 Get the data used in the test
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getData()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$get_data()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
@@ -63,13 +63,13 @@ A dataframe with all features
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-isPaired"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-isPaired}{}}}
-\subsection{Method \code{isPaired()}}{
+\if{html}{\out{<a id="method-AutomatedTest-is_paired"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-is_paired}{}}}
+\subsection{Method \code{is_paired()}}{
 Shows if the data is paired, if there are multiple rows with the same identifier, the data has more
 samples (TIDY DATA). Making the data paired.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$isPaired()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$is_paired()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
@@ -77,12 +77,12 @@ Whether the data is paired (TRUE/FALSE).
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-getIdentifiers"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-getIdentifiers}{}}}
-\subsection{Method \code{getIdentifiers()}}{
+\if{html}{\out{<a id="method-AutomatedTest-get_identifiers"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-get_identifiers}{}}}
+\subsection{Method \code{get_identifiers()}}{
 A list of the identifiers used for the data
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getIdentifiers()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$get_identifiers()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
@@ -90,12 +90,12 @@ Returns the identifiers
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-getCompareTo"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-getCompareTo}{}}}
-\subsection{Method \code{getCompareTo()}}{
+\if{html}{\out{<a id="method-AutomatedTest-get_compare_to"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-get_compare_to}{}}}
+\subsection{Method \code{get_compare_to()}}{
 Get the comparison value for one-sample tests
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getCompareTo()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$get_compare_to()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
@@ -103,13 +103,15 @@ A numeric value for comparison
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-setCompareTo"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-setCompareTo}{}}}
-\subsection{Method \code{setCompareTo()}}{
+\if{html}{\out{<a id="method-AutomatedTest-set_compare_co"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-set_compare_co}{}}}
+\subsection{Method \code{set_compare_co()}}{
 Updates the compare_to variable. Is public because the
-compare value can get changed depending on the type of test.
+compare value can get changed depending on the type of test. This
+function is public because it needs to be able to be called by
+automatical_test()
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$setCompareTo(compare_to)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$set_compare_co(compare_to)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -124,12 +126,12 @@ Updated object with comparison value set.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-getDatatypes"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-getDatatypes}{}}}
-\subsection{Method \code{getDatatypes()}}{
+\if{html}{\out{<a id="method-AutomatedTest-get_datatypes"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-get_datatypes}{}}}
+\subsection{Method \code{get_datatypes()}}{
 Get the data types of the features in the object
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getDatatypes()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$get_datatypes()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
@@ -137,12 +139,12 @@ A list of data types (e.g., Quantitative or Qualitative)
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-getParametricList"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-getParametricList}{}}}
-\subsection{Method \code{getParametricList()}}{
+\if{html}{\out{<a id="method-AutomatedTest-get_parametric_list"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-get_parametric_list}{}}}
+\subsection{Method \code{get_parametric_list()}}{
 Get the parametric test results of the features
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getParametricList()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$get_parametric_list()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
@@ -150,12 +152,12 @@ A list of parametric test results
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-isParametric"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-isParametric}{}}}
-\subsection{Method \code{isParametric()}}{
+\if{html}{\out{<a id="method-AutomatedTest-is_parametric"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-is_parametric}{}}}
+\subsection{Method \code{is_parametric()}}{
 Check if the data meets parametric assumptions
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$isParametric()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$is_parametric()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
@@ -163,12 +165,12 @@ TRUE if parametric assumptions are met, otherwise FALSE
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-getTest"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-getTest}{}}}
-\subsection{Method \code{getTest()}}{
+\if{html}{\out{<a id="method-AutomatedTest-get_test"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-get_test}{}}}
+\subsection{Method \code{get_test()}}{
 Get the statistical test that was chosen
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getTest()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$get_test()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
@@ -176,12 +178,12 @@ The name of the statistical test
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-getResult"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-getResult}{}}}
-\subsection{Method \code{getResult()}}{
+\if{html}{\out{<a id="method-AutomatedTest-get_result"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-get_result}{}}}
+\subsection{Method \code{get_result()}}{
 Get the result of selected statistical test
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getResult()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$get_result()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
@@ -189,12 +191,12 @@ The result of the statistical test
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-getStrength"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-getStrength}{}}}
-\subsection{Method \code{getStrength()}}{
+\if{html}{\out{<a id="method-AutomatedTest-get_strength"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-get_strength}{}}}
+\subsection{Method \code{get_strength()}}{
 Get the strength(s) of selected statistical test.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$getStrength()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$get_strength()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
@@ -212,12 +214,12 @@ The type and meaning depend on the test used:
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AutomatedTest-isSignificant"></a>}}
-\if{latex}{\out{\hypertarget{method-AutomatedTest-isSignificant}{}}}
-\subsection{Method \code{isSignificant()}}{
+\if{html}{\out{<a id="method-AutomatedTest-is_significant"></a>}}
+\if{latex}{\out{\hypertarget{method-AutomatedTest-is_significant}{}}}
+\subsection{Method \code{is_significant()}}{
 Whether the test results are significant or not.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$isSignificant()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$is_significant()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{

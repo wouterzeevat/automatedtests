@@ -17,7 +17,7 @@ The package supports tidy data frames and a set of numeric/categorical vectors! 
 
 - Auto-detects best statistical test based on your data type and structure.
 - Handles tidy data: optional identifier exclusion.
-- Returns an `AutomatedTest` object with many different results including the full test `$getResult()`.
+- Returns an `AutomatedTest` object with many different results including the full test `$get_result()`.
 
 ### Supported Tests
 | number     | test |
@@ -69,7 +69,7 @@ test1 <- automatical_test(cars)
 test1
 
 # Get detailed results
-test1$getResult()
+test1$get_result()
 ```
 
 ### Using individual vectors
@@ -77,7 +77,7 @@ test1$getResult()
 ```r
 # Compare Sepal.Length across Species
 test2 <- automatical_test(iris$Species, iris$Sepal.Length)
-test2$getResult()
+test2$get_result()
 ```
 
 ### One-sample tests
@@ -101,11 +101,11 @@ automatical_test(c(3, 5, 4, 6, 7), compare_to = 5)
 Returns an object of class `AutomatedTest` with methods and properties like:
 
 - `print(object)` - overview of executed test and its results.
-- `$getResult()` - detailed summary of the test performed, containing all information including p.value, statistics etc.
-- `$getTest()` - test type selected
-- `$isParametric()` - Whether the numeric feature were parametric
-- `$isPaired()` - Returns if a paired test was used.
-- `$getStrength()` - Shows the strength of the test/correlation. This is a different kind of value for each test. It will also return what the value is. These are the different types of data it can return:
+- `$get_result()` - detailed summary of the test performed, containing all information including p.value, statistics etc.
+- `$get_test()` - test type selected
+- `$is_parametric()` - Whether the numeric feature were parametric
+- `$is_paired()` - Returns if a paired test was used.
+- `$get_strength()` - Shows the strength of the test/correlation. This is a different kind of value for each test. It will also return what the value is. These are the different types of data it can return:
 ```
 coefficient     – strength and direction of predictor effects  
 r               – strength and direction of correlation  
@@ -116,15 +116,16 @@ proportion      – estimated proportion of successes in a sample
 non-existent    – no interpretable strength measure available  
 ```
 
-- `$getParametricList()` - Returns a list of all numeric features' distributions and the parametric tests used.
-- `$getDatatypes()` - Shows what type of data the features used in the corresponding test contain.
-- `$isSignificant()` - TRUE/FALSE if result is statistically significant (p.value < 0.05), to show the result in the blink of an eye!
+- `$get_parametric_list()` - Returns a list of all numeric features' distributions and the parametric tests used.
+- `$get_datatypes()` - Shows what type of data the features used in the corresponding test contain.
+- `$is_significant()` - TRUE/FALSE if result is statistically significant (p.value < 0.05), to show the result in the blink of an eye!
 
 ## Example Output
 
 ```r
 # Automated Test:
 # Data:  speed, dist 
+# Test:  Spearman's rank correlation 
 # Test:  Spearman's rank correlation 
 # Results: 
 #  p.value:  8.824558e-14 
