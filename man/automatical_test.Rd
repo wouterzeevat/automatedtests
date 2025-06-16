@@ -65,8 +65,15 @@
   14 \tab Student's t-test for independent samples \cr
   15 \tab Welch's t-test for independent samples \cr
   16 \tab Mann-Whitney U test \cr
-  17 \tab Student's \cr
-  }
+  17 \tab Student's t-test for paired samples \cr
+  18 \tab Wilcoxon signed-rank test \cr
+  19 \tab One-way ANOVA \cr
+  20 \tab Welch's ANOVA \cr
+  21 \tab Repeated measures ANOVA \cr
+  22 \tab Kruskal-Wallis test \cr
+  23 \tab Friedman test \cr
+}
+
 }
 \examples{
   # Example 1: Using individual vectors
