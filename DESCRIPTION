@@ -1,7 +1,7 @@
 Package: automatedtests
 Type: Package
 Title: Automating Choosing Statistical Tests
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: person(given = "Wouter",
                   family = "Zeevat",
                   role = c("aut", "cre"),
