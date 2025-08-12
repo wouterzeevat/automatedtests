@@ -3,7 +3,8 @@
 
 [![Cran Version](https://www.r-pkg.org/badges/version/automatedtests)](https://CRAN.R-project.org/package=automatedtests)
 [![R-CMD-check](https://github.com/wouterzeevat/automatedtests/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/wouterzeevat/automatedtests/actions/workflows/R-CMD-check.yaml)
-[![CRAN Downloads](https://cranlogs.r-pkg.org/badges/automatedtests)](https://cran.r-project.org/package=automatedtests)
+[![CRAN Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/automatedtests)](https://cran.r-project.org/package=automatedtests)
+
 
 Automatically select and run the best statistical test for your data with just one line of code. Supporting one-sample-tests, two-sample-tests, multiple-sample-tests, and even correlations! [automatedtests](https://CRAN.R-project.org/package=automatedtests)
 
