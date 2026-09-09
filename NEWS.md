@@ -19,3 +19,13 @@
 - Created table output for multiple variable tests.
 - Parametric_list() outputs a dataframe instead of a list.
 - Object's functions are changed to snakecase to match R standard.
+
+# Version 0.1.3 (2026-09-09)
+
+- Fixed test selection checking normality on the pooled data instead of within each group.
+  Two normal groups with different means were wrongly sent to a non-parametric test.
+- Paired designs now check normality of the paired differences.
+- get_parametric_list() reports one row per tested sample, e.g. "value (group = A)".
+- Samples too small to test for normality no longer error and are reported as NA.
+- Added a testthat test suite.
+- Pinned CI runners to ubuntu-24.04.
