@@ -142,20 +142,27 @@ A list of data types (e.g., Quantitative or Qualitative)
 \if{html}{\out{<a id="method-AutomatedTest-get_parametric_list"></a>}}
 \if{latex}{\out{\hypertarget{method-AutomatedTest-get_parametric_list}{}}}
 \subsection{Method \code{get_parametric_list()}}{
-Get the parametric test results of the features
+Get the normality test results that decide between parametric and
+non-parametric tests. Normality is checked on the samples the chosen test actually
+assumes to be normal: the quantitative variable within each group for group
+comparisons, the paired differences for paired designs, and each quantitative
+variable on its own otherwise. See \code{get_normality_samples()}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$get_parametric_list()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
-A list of parametric test results
+A data frame with one row per tested sample (Feature, result, p_value, test, statistic).
+Samples too small to test (fewer than 3 observations) get \code{NA} results.
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-AutomatedTest-is_parametric"></a>}}
 \if{latex}{\out{\hypertarget{method-AutomatedTest-is_parametric}{}}}
 \subsection{Method \code{is_parametric()}}{
-Check if the data meets parametric assumptions
+Check if the data meets parametric assumptions, i.e. every sample in
+\code{get_parametric_list()} passed its normality test. Samples that could not be
+tested are ignored.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AutomatedTest$is_parametric()}\if{html}{\out{</div>}}
 }

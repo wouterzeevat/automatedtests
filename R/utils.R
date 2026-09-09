@@ -3,15 +3,17 @@
 #' This function checks whether a numeric vector is approximately normally distributed,
 #' using the Shapiro-Wilk test for small samples (n < 5000) and the Anderson-Darling test
 #' for larger ones. If the input is not numeric, the function returns \code{NULL}.
+#' Samples with fewer than 3 non-missing observations, or with no variance, cannot be
+#' tested and yield \code{NA} results.
 #'
 #' @param data A numeric vector to test for normality.
 #'
 #' @return A list containing:
 #' \describe{
-#'   \item{test}{Name of the test used ("Shapiro-Wilk Test" or "Anderson-Darling Test")}
+#'   \item{test}{Name of the test used ("Shapiro-Wilk Test" or "Anderson-Darling Test"), or \code{NA} if the sample could not be tested}
 #'   \item{statistic}{The test statistic}
 #'   \item{p_value}{The p-value from the test}
-#'   \item{result}{Logical; \code{TRUE} if p > 0.05 (assumed normal), \code{FALSE} otherwise}
+#'   \item{result}{Logical; \code{TRUE} if p > 0.05 (assumed normal), \code{FALSE} otherwise, \code{NA} if the sample could not be tested}
 #' }
 #'
 #' Returns \code{NULL} if input is not numeric.
@@ -22,6 +24,18 @@
 #' @importFrom nortest ad.test
 check_parametric <- function(data) {
   if (!is.numeric(data)) return(NULL)
+  data <- data[!is.na(data)]
+
+  # Shapiro-Wilk needs at least 3 observations and non-constant data;
+  # with less there is no basis to judge normality.
+  if (length(data) < 3 || length(unique(data)) == 1) {
+    return(list(
+      test = NA_character_,
+      statistic = NA_real_,
+      p_value = NA_real_,
+      result = NA
+    ))
+  }
 
   if (length(data) < 5000) {
     result <- shapiro.test(data)
@@ -37,6 +51,71 @@ check_parametric <- function(data) {
     p_value = result$p.value,
     result = result$p.value > 0.05
   ))
+}
+
+#' Internal: Collect the samples whose normality decides between parametric and non-parametric tests
+#'
+#' Parametric tests assume normality within each group (or of the paired differences),
+#' not of the pooled response. Testing a pooled column would reject normality whenever
+#' the group means differ, because the mixture of groups is multimodal, and the wrong
+#' test would be chosen. This function splits the data according to the design so that
+#' \code{check_parametric} is applied to the right samples:
+#' \itemize{
+#'   \item One quantitative variable: the variable itself.
+#'   \item Two quantitative variables, paired: the pairwise differences.
+#'   \item Two quantitative variables, unpaired (correlation): each variable separately.
+#'   \item One qualitative and one quantitative variable, paired with exactly two
+#'         conditions: the differences between the two conditions.
+#'   \item One qualitative and one quantitative variable, otherwise: the quantitative
+#'         variable split by group.
+#'   \item Any other layout: each quantitative column separately.
+#' }
+#'
+#' @param test_object An \code{AutomatedTest} object.
+#'
+#' @return A named list of numeric vectors to test for normality. The names describe
+#'   the sample (e.g. \code{"value (group = A)"}) and are used as the \code{Feature}
+#'   column of \code{AutomatedTest$get_parametric_list()}.
+#'
+#' @keywords internal
+get_normality_samples <- function(test_object) {
+  data <- test_object$get_data()
+  types <- test_object$get_datatypes()
+  col_names <- colnames(data)
+
+  if (ncol(data) == 2) {
+
+    # Quantitative & Quantitative, paired: normality of the differences
+    if (all(types == "Quantitative") && test_object$is_paired()) {
+      samples <- list(data[[1]] - data[[2]])
+      names(samples) <- paste(col_names[1], "-", col_names[2])
+      return(samples)
+    }
+
+    # Qualitative & Quantitative: normality within each group
+    if (length(unique(types)) == 2) {
+      qual_index <- which(types == "Qualitative")
+      quan_index <- which(types == "Quantitative")
+      groups <- split(data[[quan_index]], data[[qual_index]])
+
+      # Paired with two conditions: normality of the paired differences.
+      # Rows are matched in order within each condition, like the paired tests themselves.
+      if (test_object$is_paired() && length(groups) == 2 &&
+          length(groups[[1]]) == length(groups[[2]])) {
+        samples <- list(groups[[1]] - groups[[2]])
+        names(samples) <- paste0(col_names[quan_index], " (",
+                                 names(groups)[1], " - ", names(groups)[2], ")")
+        return(samples)
+      }
+
+      names(groups) <- paste0(col_names[quan_index], " (",
+                              col_names[qual_index], " = ", names(groups), ")")
+      return(groups)
+    }
+  }
+
+  # Otherwise every quantitative column on its own
+  return(as.list(data)[types == "Quantitative"])
 }
 
 #' Internal: Returns the result of a statistical test based on a string identifier

@@ -12,10 +12,10 @@ check_parametric(data)
 \value{
 A list containing:
 \describe{
-  \item{test}{Name of the test used ("Shapiro-Wilk Test" or "Anderson-Darling Test")}
+  \item{test}{Name of the test used ("Shapiro-Wilk Test" or "Anderson-Darling Test"), or \code{NA} if the sample could not be tested}
   \item{statistic}{The test statistic}
   \item{p_value}{The p-value from the test}
-  \item{result}{Logical; \code{TRUE} if p > 0.05 (assumed normal), \code{FALSE} otherwise}
+  \item{result}{Logical; \code{TRUE} if p > 0.05 (assumed normal), \code{FALSE} otherwise, \code{NA} if the sample could not be tested}
 }
 
 Returns \code{NULL} if input is not numeric.
@@ -24,5 +24,7 @@ Returns \code{NULL} if input is not numeric.
 This function checks whether a numeric vector is approximately normally distributed,
 using the Shapiro-Wilk test for small samples (n < 5000) and the Anderson-Darling test
 for larger ones. If the input is not numeric, the function returns \code{NULL}.
+Samples with fewer than 3 non-missing observations, or with no variance, cannot be
+tested and yield \code{NA} results.
 }
 \keyword{internal}

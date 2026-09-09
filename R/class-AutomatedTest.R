@@ -105,29 +105,35 @@ AutomatedTest <- R6::R6Class(
       return(result)
     },
 
-    #' @description Get the parametric test results of the features
-    #' @return A list of parametric test results
+    #' @description Get the normality test results that decide between parametric and
+    #' non-parametric tests. Normality is checked on the samples the chosen test actually
+    #' assumes to be normal: the quantitative variable within each group for group
+    #' comparisons, the paired differences for paired designs, and each quantitative
+    #' variable on its own otherwise. See \code{get_normality_samples()}.
+    #' @return A data frame with one row per tested sample (Feature, result, p_value, test, statistic).
+    #' Samples too small to test (fewer than 3 observations) get \code{NA} results.
     get_parametric_list = function() {
 
       parametric_list <- data.frame(
         Feature = character(),
         result = logical(),
         p_value = numeric(),
-        test = logical(),
+        test = character(),
         statistic = numeric(),
         stringsAsFactors = FALSE
       )
 
-      for (name in colnames(self$get_data())) {
-        feature = self$get_data()[[name]]
-        result = check_parametric(feature)
+      samples <- get_normality_samples(self)
+
+      for (name in names(samples)) {
+        result <- check_parametric(samples[[name]])
 
         # Ignore qualitative
         if (is.null(result)) {
           next
         }
 
-        df = data.frame(
+        df <- data.frame(
           Feature = name,
           result = result$result,
           p_value = result$p_value,
@@ -136,16 +142,18 @@ AutomatedTest <- R6::R6Class(
           stringsAsFactors = FALSE
         )
 
-        parametric_list = rbind(parametric_list, df)
+        parametric_list <- rbind(parametric_list, df)
       }
       rownames(parametric_list) <- NULL
       return(parametric_list)
     },
 
-    #' @description Check if the data meets parametric assumptions
+    #' @description Check if the data meets parametric assumptions, i.e. every sample in
+    #' \code{get_parametric_list()} passed its normality test. Samples that could not be
+    #' tested are ignored.
     #' @return TRUE if parametric assumptions are met, otherwise FALSE
     is_parametric = function() {
-      return(all(self$get_parametric_list()$result))
+      return(all(self$get_parametric_list()$result, na.rm = TRUE))
     },
 
     #' @description Get the statistical test that was chosen
